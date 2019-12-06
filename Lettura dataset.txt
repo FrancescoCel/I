@@ -1,0 +1,5 @@
+-Vedere prima la tabella denominata "symptoms2.csv".
+-Leggere la colonna chief_complaint_id che corrisponde al syd della tabella diffsydiw.csv.
+-vedere la corrispondenza nella colonna did(sempre in diffsydiw.csv).
+-vedere nella tabella diagn_title.csv l'id e la diagnosi 
+ corrispondente al did estratto dalla tabella "diffsydiw.csv".
