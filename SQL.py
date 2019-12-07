@@ -11,7 +11,7 @@ def executeQueries(filename,tablename,conn):
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
         table = sheet['id']
     
         #Query per la creazione della tabella del file diagn_title.xlsx
@@ -84,25 +84,42 @@ def executeQueries(filename,tablename,conn):
     #Commit della transazione
     conn.commit()
     
+def createDb(conn):
+    import pymysql as sql    
+    sql.install_as_MySQLdb()
+    import MySQLdb as mysql
+    
+    cursor = conn.cursor()
+    query1 = """DROP DATABASE IF EXISTS medical;"""
+    query2 = """CREATE DATABASE medical; """
+    query3 = """USE medical; """
+    
+    try:
+         cursor.execute(query1)
+         cursor.execute(query2)
+         cursor.execute(query3)
+         conn.commit()
+    except sql.ProgrammingError:
+         pass
+    
     
     
 def SQLConnect():
-    import pymysql as sql
-    sql.install_as_MySQLdb()
-    import MySQLdb as mysql
+    #import pymysql as sql
+    #sql.install_as_MySQLdb()
+    #import MySQLdb as mysql
     #import openpyxl as xl
-
-    """
-    sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/dia_3.xlsx")
-    table = sheet['_id']
-    """
+    import mysql.connector
     
-    server = 'localhost'
-    db = 'medical'
-    pword = 'checco'
-    user = 'root'
-    conn = mysql.connect(server,user,pword,db)
+    #server = 'localhost'
+    #db = 'medical'
+    #pword = 'checco'
+    #user = 'root'
+    conn = mysql.connector.connect(host = "localhost",
+                                   user = "root",
+                                   password = "checco")
     
+    createDb(conn)
     executeQueries('diagn_title', 'diagn',conn)
     executeQueries('diffsydiw', 'diff',conn)
     executeQueries('symptoms2', 'sym',conn)
