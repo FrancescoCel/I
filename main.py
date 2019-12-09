@@ -4,6 +4,9 @@ Created on Thu Dec  5 10:37:07 2019
 
 @author: franc
 """
+import mysql.connector
+import SQL
+
 def read_symptoms():
     list = []
     stop = "/"
@@ -17,9 +20,12 @@ def read_symptoms():
 
         
 
-def main():
+def main(conn):
+    
     print("Insert your symptoms. Type '/' to stop insertion.")
     list = read_symptoms()
     print(list)
-
+    
+    SQL.searchDiagn(conn,list)
+    
     
