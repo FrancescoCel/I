@@ -1,5 +1,9 @@
+import mysql.connector
+
+
+
 def executeQueries(filename,tablename,conn):
-    import pymysql as sql
+    import pymysql as sql    
     sql.install_as_MySQLdb()
     import MySQLdb as mysql
     import openpyxl as xl
@@ -42,16 +46,16 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
-        table = sheet['chief_complaint_id']
+        table = sheet['_id']
         
         #Query per la creazione della tabella del file symptoms2.xlsx
         queryCreate = """CREATE TABLE """+ tablename + """(
-                    chief_complaint_id VARCHAR(40),
+                    _id VARCHAR(40),
                     name text);"""
         
         #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
-                     chief_complaint_id ,name) VALUES(%s,%s);"""
+                     _id ,name) VALUES(%s,%s);"""
     
     try:
         cursor.execute(queryDrop)
@@ -63,9 +67,9 @@ def executeQueries(filename,tablename,conn):
     for row in table.rows:
         
         if filename == 'symptoms2':
-             chief_complaint_id = row[1].value
+             _id = row[0].value
              name = row[3].value
-             values = (chief_complaint_id,name)
+             values = (_id,name)
              #Esecuzione query
              cursor.execute(insertQuery,values)
         elif filename == 'diffsydiw':
@@ -80,7 +84,7 @@ def executeQueries(filename,tablename,conn):
             values = (id,title)
             #Esecuzione query
             cursor.execute(insertQuery,values)
-             
+    cursor.close()      
     #Commit della transazione
     conn.commit()
     
@@ -102,19 +106,11 @@ def createDb(conn):
     except sql.ProgrammingError:
          pass
     
-    
+    cursor.close()
     
 def SQLConnect():
-    #import pymysql as sql
-    #sql.install_as_MySQLdb()
-    #import MySQLdb as mysql
-    #import openpyxl as xl
-    import mysql.connector
     
-    #server = 'localhost'
-    #db = 'medical'
-    #pword = 'checco'
-    #user = 'root'
+    
     conn = mysql.connector.connect(host = "localhost",
                                    user = "root",
                                    password = "checco")
@@ -125,39 +121,35 @@ def SQLConnect():
     executeQueries('symptoms2', 'sym',conn)
     
     
-   # cursor = conn.cursor()
     
-   # queryDrop = """DROP TABLE IF EXISTS sym  """
-   # queryCreate = """CREATE TABLE sym(
-   #             _id VARCHAR(30),
-   #             diagnose text);"""
-   # insertQuery = """INSERT INTO sym(
-   #                  _id,diagnose) VALUES(%s,%s);"""
-   # 
-   # try:
-   #     cursor.execute(queryDrop)
-   #     cursor.execute(queryCreate)
-   #     conn.commit()
-   # except sql.ProgrammingError:
-   #     pass
-   # 
-   # for row in table.rows:
-   #      _id = row[0].value
-   #      diagnose = row[1].value
-   #      values = (_id,diagnose)
-   #      #Esecuzione query
-   #      cursor.execute(insertQuery,values)
-   # 
-    #Commit della transazione
-   # conn.commit()
-    
-    
-    #Chiusura databse
+    return conn
+
+def closeConn(conn):
     conn.close()
+    
+def searchDiagn(conn,list):
+    import numpy as np
+    
+    cursor = conn.cursor(buffered = True)
+    idSymptoms = []
+    idDiseases = []
+    
+    for i in list:
+        #Query che preleva l'id corrispondenti ai sintomi
+        querySym = """SELECT _id from sym where name='""" + i +"""';""" 
+        cursor.execute(querySym)
+        idSymptoms.append(cursor.fetchall()) 
 
-
-
-
+    
+    for i in idSymptoms:
+        i = np.asarray(i)
+        #Query che restituisce l'id delle malattie collegate all'id dei sintomi(colonna did nella tabella)
+        queryDid = """SELECT did from diff where syd='"""+ i[0][0] +"""';"""
+        cursor.execute(queryDid)
+        idDiseases.append(cursor.fetchall())
+        
+    print(idDiseases)   
+        
 
 
 
