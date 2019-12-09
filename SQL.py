@@ -16,6 +16,7 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         table = sheet['id']
     
         #Query per la creazione della tabella del file diagn_title.xlsx
@@ -31,6 +32,7 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         table = sheet['syd']
         
         #Query per la creazione della tabella del file diffsydiw.xlsx
@@ -46,6 +48,7 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         table = sheet['_id']
         
         #Query per la creazione della tabella del file symptoms2.xlsx
@@ -114,6 +117,8 @@ def SQLConnect():
     conn = mysql.connector.connect(host = "localhost",
                                    user = "root",
                                    password = "checco")
+    
+    #conn = mysql.connector.connect(host = "localhost", user = "root", password = "password")
     
     createDb(conn)
     executeQueries('diagn_title', 'diagn',conn)
