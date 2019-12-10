@@ -15,8 +15,9 @@ def executeQueries(filename,tablename,conn):
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook ("C:/Program Files/Git/ICon/Dataset_xlsx/" + filename + ".xlsx")
         table = sheet['id']
     
         #Query per la creazione della tabella del file diagn_title.xlsx
@@ -32,9 +33,9 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
 
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-
+        sheet = xl.load_workbook("C:/Program Files/Git/ICon/Dataset_xlsx/" + filename + ".xlsx")
         table = sheet['syd']
         
         #Query per la creazione della tabella del file diffsydiw.xlsx
@@ -50,9 +51,9 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
 
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx"
-  
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx"
         #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Program Files/Git/ICon/Dataset_xlsx/" + filename + ".xlsx")
 
         table = sheet['_id']
         
@@ -119,11 +120,9 @@ def createDb(conn):
 def SQLConnect():
     
     
-    conn = mysql.connector.connect(host = "localhost",
-                                   user = "root",
-                                   password = "checco")
-    
+    #conn = mysql.connector.connect(host = "localhost", user = "root", password = "checco")
     #conn = mysql.connector.connect(host = "localhost", user = "root", password = "password")
+    conn = mysql.connector.connect(host = "localhost", user = "root", password = "sole1997") 
     
     createDb(conn)
     executeQueries('diagn_title', 'diagn',conn)
