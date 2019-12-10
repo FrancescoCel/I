@@ -20,8 +20,9 @@ def read_symptoms():
 
         
 
-def main(conn):
+def main():
     
+    conn = SQL.SQLConnect()
     print("Insert your symptoms. Type '/' to stop insertion.")
     list = read_symptoms()
     print(list)
