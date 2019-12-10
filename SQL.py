@@ -30,7 +30,7 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
         table = sheet['syd']
         
         #Query per la creazione della tabella del file diffsydiw.xlsx
@@ -45,7 +45,7 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'symptoms2':    
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
         table = sheet['_id']
         
         #Query per la creazione della tabella del file symptoms2.xlsx
