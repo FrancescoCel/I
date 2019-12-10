@@ -16,6 +16,9 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Program Files/Git/ICon/Dataset_xlsx/" + filename +".xlsx")
+        
         table = sheet['id']
     
         #Query per la creazione della tabella del file diagn_title.xlsx
@@ -30,7 +33,10 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Program Files/Git/ICon/Dataset_xlsx/" + filename +".xlsx")
+        
         table = sheet['syd']
         
         #Query per la creazione della tabella del file diffsydiw.xlsx
@@ -45,7 +51,10 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'symptoms2':    
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/Desktop/Progetto ICon/Dataset/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Program Files/Git/ICon/Dataset_xlsx/" + filename +".xlsx")
+        
         table = sheet['_id']
         
         #Query per la creazione della tabella del file symptoms2.xlsx
@@ -94,14 +103,12 @@ def createDb(conn):
     import MySQLdb as mysql
     
     cursor = conn.cursor()
-    query1 = """DROP DATABASE IF EXISTS medical;"""
-    query2 = """CREATE DATABASE medical; """
-    query3 = """USE medical; """
+    query1 = """CREATE DATABASE medical; """
+    query2 = """USE medical; """
     
     try:
          cursor.execute(query1)
          cursor.execute(query2)
-         cursor.execute(query3)
          conn.commit()
     except sql.ProgrammingError:
          pass
@@ -114,18 +121,47 @@ def SQLConnect():
     conn = mysql.connector.connect(host = "localhost",
                                    user = "root",
                                    password = "checco")
+    """conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')"""
+    """conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')"""
+    check = checkDb(conn)
     
-    createDb(conn)
-    executeQueries('diagn_title', 'diagn',conn)
-    executeQueries('diffsydiw', 'diff',conn)
-    executeQueries('symptoms2', 'sym',conn)
-    
+    if check is True:
+        
+        createDb(conn)
+        queryUse(conn)
+        executeQueries('diagn_title', 'diagn',conn)
+        executeQueries('diffsydiw', 'diff',conn)
+        executeQueries('symptoms2', 'sym',conn)
+    else:
+        print("Database esistente!")
+        queryUse(conn)
     
     
     return conn
+def queryUse(conn):
+    
+    cursor = conn.cursor()
+    
+    query = """USE medical;"""
+    cursor.execute(query)
+    conn.commit()
 
 def closeConn(conn):
     conn.close()
+
+def checkDb(conn):
+    
+    cursor = conn.cursor()
+    
+    queryCheck = """SHOW DATABASES LIKE 'medical';"""
+    cursor.execute(queryCheck)
+    check = cursor.fetchall()
+    
+    if not check:
+        return True
+    else:
+        return False
+    
     
 def searchDiagn(conn,list):
     import numpy as np
@@ -149,8 +185,22 @@ def searchDiagn(conn,list):
         idDiseases.append(cursor.fetchall())
         
     print(idDiseases)   
+    
+    checkDiagnName(idDiseases,cursor)
         
 
-
-
+def checkDiagnName(idDiseases,cursor):
+    import numpy as np
+    diagnName = []
+    
+    for i in idDiseases:
+        i = np.asarray(i)
+        for a in range(0,len(i)):
+            queryName = """SELECT title from diagn where id ='"""+i[a][0]+"""';"""
+            cursor.execute(queryName)
+            diagnName.append(cursor.fetchall())
+            
+    print(diagnName)    
+        
+        
       
