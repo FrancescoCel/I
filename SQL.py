@@ -121,9 +121,9 @@ def SQLConnect():
     conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
     """conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')"""
     """conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')"""
-    check = checkDb(conn)
     
-    if check is True:
+    
+    if checkDb(conn) is True:
         
         createDb(conn)
         queryUse(conn)
