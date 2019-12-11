@@ -160,13 +160,36 @@ def checkDb(conn):
     else:
         return False
     
+def checkSymWithErr(conn,value):
+    cursor = conn.cursor(buffered = True)
     
+    #Funzione che verifica se un determinato sintomo inserito è corretto
+    querySym = """SELECT _id from sym where name='""" + value +"""';""" 
+    cursor.execute(querySym)
+    check = cursor.fetchall()
+    if not check:
+        while True:
+            
+            print("Sintomo non presente! Inserirne uno corretto")
+            newValue = input()
+            querySymRepeat = """SELECT _id from sym where name='""" + newValue +"""';"""
+            cursor.execute(querySymRepeat)
+            checkRepeat = cursor.fetchall()
+            if checkRepeat or newValue == "/":
+                value = newValue
+                break
+                
+    
+        
+    return value
+    
+
 def searchDiagn(conn,list):
     import numpy as np
     
     cursor = conn.cursor(buffered = True)
-    idSymptoms = []
     idDiseases = []
+    idSymptoms = []
     
     for i in list:
         #Query che preleva l'id corrispondenti ai sintomi
@@ -194,6 +217,7 @@ def checkDiagnName(idDiseases,cursor):
     for i in idDiseases:
         i = np.asarray(i)
         for a in range(0,len(i)):
+            #Query che restituisce i nomi delle diagnosi associati all'id
             queryName = """SELECT title from diagn where id ='"""+i[a][0]+"""';"""
             cursor.execute(queryName)
             diagnName.append(cursor.fetchall())
