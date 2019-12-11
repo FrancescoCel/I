@@ -13,11 +13,15 @@ def read_symptoms(conn):
     while True:
         value = input()
         if value != stop:
-            value = SQL.checkSymWithErr(conn,value)
-        if value == stop:
+            goodVal = False
+            while goodVal is False:
+                goodVal = SQL.checkSymWithErr(conn, value)
+                if goodVal is False:
+                    print("Last symptom inserted is wrong. Insert a valid one.")
+                    value = input()
+            list.append(value)
+        else:
             break
-        list.append(value)
-    
     return list
 
         
