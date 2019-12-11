@@ -1,7 +1,66 @@
 import mysql.connector
 
+def SQLConnect():
+    #conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
+    conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
+    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
+    
+    if checkDb(conn) is True:
+        
+        createDb(conn)
+        queryUse(conn)
+        executeQueries('diagn_title', 'diagn',conn)
+        executeQueries('diffsydiw', 'diff',conn)
+        executeQueries('symptoms2', 'sym',conn)
+    else:
+        print("Database esistente!")
+        queryUse(conn)
+    
+    return conn
 
 
+
+def checkDb(conn):
+    
+    cursor = conn.cursor()
+    
+    queryCheck = """SHOW DATABASES LIKE 'medical';"""
+    cursor.execute(queryCheck)
+    check = cursor.fetchall()
+    
+    if not check:
+        return True
+    else:
+        return False
+
+
+def createDb(conn):
+    import pymysql as sql    
+    sql.install_as_MySQLdb()
+    import MySQLdb as mysql
+    
+    cursor = conn.cursor()
+    query1 = """CREATE DATABASE medical; """
+    query2 = """USE medical; """
+    
+    try:
+         cursor.execute(query1)
+         cursor.execute(query2)
+         conn.commit()
+    except sql.ProgrammingError:
+         pass
+    
+    cursor.close()
+    
+
+def queryUse(conn):
+    cursor = conn.cursor()
+    query = """USE medical;"""
+    cursor.execute(query)
+    conn.commit()
+    
+    
+    
 def executeQueries(filename,tablename,conn):
     import pymysql as sql    
     sql.install_as_MySQLdb()
@@ -9,14 +68,13 @@ def executeQueries(filename,tablename,conn):
     import openpyxl as xl
     
     cursor = conn.cursor()  
-    
     queryDrop = """DROP TABLE IF EXISTS """+ tablename
     
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['id']
@@ -33,8 +91,8 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['syd']
@@ -49,11 +107,10 @@ def executeQueries(filename,tablename,conn):
                      syd,did) VALUES(%s,%s);"""
         
     elif filename == 'symptoms2':    
-        
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-      #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['_id']
         
@@ -65,7 +122,6 @@ def executeQueries(filename,tablename,conn):
         #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
                      _id ,name) VALUES(%s,%s);"""
-    
     try:
         cursor.execute(queryDrop)
         cursor.execute(queryCreate)
@@ -97,91 +153,19 @@ def executeQueries(filename,tablename,conn):
     #Commit della transazione
     conn.commit()
     
-def createDb(conn):
-    import pymysql as sql    
-    sql.install_as_MySQLdb()
-    import MySQLdb as mysql
-    
-    cursor = conn.cursor()
-    query1 = """CREATE DATABASE medical; """
-    query2 = """USE medical; """
-    
-    try:
-         cursor.execute(query1)
-         cursor.execute(query2)
-         conn.commit()
-    except sql.ProgrammingError:
-         pass
-    
-    cursor.close()
-    
-def SQLConnect():
-    
-    
-    conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
-    """conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')"""
-    """conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')"""
-    
-    
-    if checkDb(conn) is True:
-        
-        createDb(conn)
-        queryUse(conn)
-        executeQueries('diagn_title', 'diagn',conn)
-        executeQueries('diffsydiw', 'diff',conn)
-        executeQueries('symptoms2', 'sym',conn)
-    else:
-        print("Database esistente!")
-        queryUse(conn)
-    
-    
-    return conn
-def queryUse(conn):
-    
-    cursor = conn.cursor()
-    
-    query = """USE medical;"""
-    cursor.execute(query)
-    conn.commit()
 
-def closeConn(conn):
-    conn.close()
 
-def checkDb(conn):
-    
-    cursor = conn.cursor()
-    
-    queryCheck = """SHOW DATABASES LIKE 'medical';"""
-    cursor.execute(queryCheck)
-    check = cursor.fetchall()
-    
-    if not check:
-        return True
-    else:
-        return False
-    
 def checkSymWithErr(conn,value):
-    cursor = conn.cursor(buffered = True)
-    
     #Funzione che verifica se un determinato sintomo inserito è corretto
+    cursor = conn.cursor(buffered = True)
     querySym = """SELECT _id from sym where name='""" + value +"""';""" 
     cursor.execute(querySym)
     check = cursor.fetchall()
     if not check:
-        while True:
-            
-            print("Sintomo non presente! Inserirne uno corretto")
-            newValue = input()
-            querySymRepeat = """SELECT _id from sym where name='""" + newValue +"""';"""
-            cursor.execute(querySymRepeat)
-            checkRepeat = cursor.fetchall()
-            if checkRepeat or newValue == "/":
-                value = newValue
-                break
-                
-    
+        return False
+    else:
+        return True
         
-    return value
     
 
 def searchDiagn(conn,list):
@@ -197,7 +181,6 @@ def searchDiagn(conn,list):
         cursor.execute(querySym)
         idSymptoms.append(cursor.fetchall()) 
 
-    
     for i in idSymptoms:
         i = np.asarray(i)
         #Query che restituisce l'id delle malattie collegate all'id dei sintomi(colonna did nella tabella)
@@ -206,11 +189,11 @@ def searchDiagn(conn,list):
         idDiseases.append(cursor.fetchall())
         
     print(idDiseases)   
-    
     checkDiagnName(idDiseases,cursor)
         
 
 def checkDiagnName(idDiseases,cursor):
+    #Funzione che restituisce le diagnosi per i vari sintomi
     import numpy as np
     diagnName = []
     
@@ -221,8 +204,8 @@ def checkDiagnName(idDiseases,cursor):
             queryName = """SELECT title from diagn where id ='"""+i[a][0]+"""';"""
             cursor.execute(queryName)
             diagnName.append(cursor.fetchall())
-            
-    print(diagnName)    
-        
-        
-      
+    print(diagnName)  
+
+
+def closeConn(conn):
+    conn.close()
