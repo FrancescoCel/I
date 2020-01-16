@@ -1,8 +1,8 @@
 import mysql.connector
 
 def SQLConnect():
-    #conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
-    conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
+    conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
+    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
     #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
     
     if checkDb(conn) is True:
@@ -106,7 +106,8 @@ def executeQueries(filename,tablename,conn):
         insertQuery = """INSERT INTO """+ tablename +"""(
                      syd,did) VALUES(%s,%s);"""
         
-    elif filename == 'symptoms2':    
+    elif filename == 'symptoms2':  
+        
         #Caricamento del worksheet
         #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
         sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
