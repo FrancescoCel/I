@@ -1,8 +1,8 @@
 import mysql.connector
 
 def SQLConnect():
-    #conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
-    conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
+    conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
+    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
     #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
     
     if checkDb(conn) is True:
@@ -73,8 +73,8 @@ def executeQueries(filename,tablename,conn):
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['id']
@@ -91,16 +91,16 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['syd']
         
         #Query per la creazione della tabella del file diffsydiw.xlsx
         queryCreate = """CREATE TABLE """+ tablename + """(
-                    syd VARCHAR(10),
-                    did VARCHAR(20));"""
+                    syd CHAR(4),
+                    did CHAR(4));"""
         
         #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
@@ -108,20 +108,21 @@ def executeQueries(filename,tablename,conn):
         
     elif filename == 'symptoms2':    
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['_id']
         
         #Query per la creazione della tabella del file symptoms2.xlsx
         queryCreate = """CREATE TABLE """+ tablename + """(
-                    _id VARCHAR(40),
-                    name text);"""
+                    _id CHAR(4),
+                    name text,
+                    cat CHAR(9));"""
         
         #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
-                     _id ,name) VALUES(%s,%s);"""
+                     _id ,name,cat) VALUES(%s,%s,%s);"""
     try:
         cursor.execute(queryDrop)
         cursor.execute(queryCreate)
@@ -134,7 +135,8 @@ def executeQueries(filename,tablename,conn):
         if filename == 'symptoms2':
              _id = row[0].value
              name = row[3].value
-             values = (_id,name)
+             cat = row[9].value
+             values = (_id,name,cat)
              #Esecuzione query
              cursor.execute(insertQuery,values)
         elif filename == 'diffsydiw':
@@ -188,10 +190,25 @@ def searchDiagn(conn,list):
         cursor.execute(queryDid)
         idDiseases.append(cursor.fetchall())
         
-    print(idDiseases)   
-    checkDiagnName(idDiseases,cursor)
+    #print(idDiseases)   
+    return checkDiagnName(idDiseases,cursor)
+    
         
-
+def searchSymCategories(conn,list):
+    #Funzione che restituisce le categorie per ogni sintomo inserito
+    
+    cursor = conn.cursor(buffered = True)
+    categories = []
+    
+    for i in list:
+        #Query che preleva le categorie corrispondenti ai sintomi
+        querySym = """SELECT cat from sym where name='""" + i +"""';""" 
+        cursor.execute(querySym)
+        categories.append(cursor.fetchall())
+        
+    print(categories)
+    return categories
+    
 def checkDiagnName(idDiseases,cursor):
     #Funzione che restituisce le diagnosi per i vari sintomi
     import numpy as np
@@ -204,8 +221,8 @@ def checkDiagnName(idDiseases,cursor):
             queryName = """SELECT title from diagn where id ='"""+i[a][0]+"""';"""
             cursor.execute(queryName)
             diagnName.append(cursor.fetchall())
-    print(diagnName)  
-
+    #print(diagnName)  
+    return diagnName
 
 def closeConn(conn):
     conn.close()
