@@ -6,6 +6,7 @@ Created on Thu Dec  5 10:37:07 2019
 """
 import mysql.connector
 import SQL
+import BayesianNet
 
 def read_symptoms(conn):
     list = []
@@ -32,7 +33,11 @@ def main():
     print("Insert your symptoms. Type '/' to stop insertion.")
     list = read_symptoms(conn)
     
-    print(list)
+    categories = SQL.searchSymCategories(conn,list)
+    percList = BayesianNet.percentSymCat(categories)
+    BayesianNet.probDiagnose(percList)
+    
+    #print(list)
     
     SQL.searchDiagn(conn,list)
     
