@@ -26,19 +26,29 @@ def read_symptoms(conn):
     return list
 
         
-
+def mergeList(diagn):
+    
+    mergedList = []
+    for i in range (0,len(diagn)):
+        mergedList += diagn[i]
+        
+    print(mergedList)
+    
 def main():
     
     conn = SQL.SQLConnect()
     print("Insert your symptoms. Type '/' to stop insertion.")
     list = read_symptoms(conn)
     
+    diagn = SQL.searchDiagn(conn,list)
+    print(diagn)
     categories = SQL.searchSymCategories(conn,list)
     percList = BayesianNet.percentSymCat(categories)
-    BayesianNet.probDiagnose(percList)
-    
+    condProbList = BayesianNet.probDiagnose(percList)
+    weightProb = BayesianNet.weightedProbCat(percList,condProbList)
+    defList = BayesianNet.defProbCat(weightProb)
     #print(list)
     
-    SQL.searchDiagn(conn,list)
+   
     
     
