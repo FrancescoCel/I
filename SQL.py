@@ -82,11 +82,12 @@ def executeQueries(filename,tablename,conn):
         #Query per la creazione della tabella del file diagn_title.xlsx
         queryCreate = """CREATE TABLE """+ tablename + """(
                     id VARCHAR(30),
-                    title text);"""
+                    title text,
+                    cat CHAR(9));"""
  
        #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
-                     id,title) VALUES(%s,%s);"""
+                     id,title,cat) VALUES(%s,%s,%s);"""
         
     elif filename == 'diffsydiw':
         
@@ -133,7 +134,7 @@ def executeQueries(filename,tablename,conn):
     for row in table.rows:
         
         if filename == 'symptoms2':
-             _id = row[0].value
+             _id = row[1].value
              name = row[3].value
              cat = row[9].value
              values = (_id,name,cat)
@@ -148,7 +149,8 @@ def executeQueries(filename,tablename,conn):
         elif filename == 'diagn_title':
             id = row[0].value
             title = row[1].value
-            values = (id,title)
+            cat = row[2].value
+            values = (id,title,cat)
             #Esecuzione query
             cursor.execute(insertQuery,values)
     cursor.close()      
@@ -179,10 +181,11 @@ def searchDiagn(conn,list):
     
     for i in list:
         #Query che preleva l'id corrispondenti ai sintomi
-        querySym = """SELECT _id from sym where name='""" + i +"""';""" 
+        querySym = """SELECT DISTINCT _id from sym where name='""" + i +"""';""" 
         cursor.execute(querySym)
         idSymptoms.append(cursor.fetchall()) 
 
+    print(type(idSymptoms))
     for i in idSymptoms:
         i = np.asarray(i)
         #Query che restituisce l'id delle malattie collegate all'id dei sintomi(colonna did nella tabella)
@@ -190,8 +193,8 @@ def searchDiagn(conn,list):
         cursor.execute(queryDid)
         idDiseases.append(cursor.fetchall())
         
-    #print(idDiseases)   
-    return checkDiagnName(idDiseases,cursor)
+
+    return idDiseases
     
         
 def searchSymCategories(conn,list):
@@ -206,7 +209,6 @@ def searchSymCategories(conn,list):
         cursor.execute(querySym)
         categories.append(cursor.fetchall())
         
-    print(categories)
     return categories
     
 def checkDiagnName(idDiseases,cursor):
@@ -226,3 +228,11 @@ def checkDiagnName(idDiseases,cursor):
 
 def closeConn(conn):
     conn.close()
+
+
+    
+    
+    
+    
+    
+    
