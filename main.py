@@ -27,12 +27,53 @@ def read_symptoms(conn):
 
         
 def mergeList(diagn):
-    
+    #funzione che unisce le liste delle diagnosi associate ai sintomi
     mergedList = []
     for i in range (0,len(diagn)):
         mergedList += diagn[i]
         
-    print(mergedList)
+    return mergedList
+
+def countOcc(mergedList):
+    #funzione che restituisce un dizionario con diagnosi e numero delle occorrenze
+    occDict = {}
+    
+    for i in mergedList:
+        if i not in occDict.keys():
+            occDict[i] = mergedList.count(i)
+   
+    return occDict
+
+def percOfDiagn(listSize,occDict):
+    #funzione che restituisce un dizionario con le percentuali delle diagnosi
+    for i in occDict.keys():
+        occDict[i] = occDict[i]/listSize
+    return occDict
+    
+def sortDictDiagn(dictDiagn):
+    #funzione che ordina i valori del dizionario con le diagnosi
+    return sorted(dictDiagn.items(), key = lambda kv:(kv[1], kv[0]), reverse = True)
+
+    
+def findNameDiagn(conn, listDiagn):
+    finalDict = {}
+    cursor = conn.cursor()
+    for i in listDiagn:
+        finalDict[SQL.checkDiagnName(cursor, i[0])] = i[1]
+    return finalDict
+
+def tabulateDictionary(finalDict):
+    from astropy.table import Table
+    
+    diagn = list(finalDict.keys())
+    prob = list(str(v)+" %" for v in finalDict.values())
+    arr = {'Diagnosis': diagn,
+       'Probability': prob}
+    
+    print(Table(arr))
+    
+    
+    
     
 def main():
     
@@ -41,14 +82,20 @@ def main():
     list = read_symptoms(conn)
     
     diagn = SQL.searchDiagn(conn,list)
-    print(diagn)
+    mergedList = mergeList(diagn)
     categories = SQL.searchSymCategories(conn,list)
     percList = BayesianNet.percentSymCat(categories)
     condProbList = BayesianNet.probDiagnose(percList)
     weightProb = BayesianNet.weightedProbCat(percList,condProbList)
-    defList = BayesianNet.defProbCat(weightProb)
-    #print(list)
+    defListCat = BayesianNet.defProbCat(weightProb)
     
+    occDict = countOcc(mergedList)
+    dictDiagn = percOfDiagn(len(mergedList),occDict)
+    dictDiagn = BayesianNet.finalProbDiagn(conn, defListCat, dictDiagn, mergedList)
+    listDiagn = sortDictDiagn(dictDiagn)        #La funzione di sorting restituisce una lista di tuple
+    finalDict = findNameDiagn(conn, listDiagn)
+    
+    tabulateDictionary(finalDict)
    
     
     
