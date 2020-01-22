@@ -63,18 +63,16 @@ def findNameDiagn(conn, listDiagn):
     return finalDict
 
 def tabulateDictionary(finalDict):
-    from astropy.table import Table
-    
+    import pandas as pd
     diagn = list(finalDict.keys())
     prob = list(str(v)+" %" for v in finalDict.values())
-    arr = {'Diagnosis': diagn,
-       'Probability': prob}
+    d = {'DIAGNOSIS': diagn, 'PROBABILITY': prob }
+    df = pd.DataFrame(data = d)
+    pd.set_option('display.max_rows', None)
+    #df.set_index(['DIAGNOSIS'], inplace = True)
+    return df
     
-    print(Table(arr))
-    
-    
-    
-    
+
 def main():
     
     conn = SQL.SQLConnect()
@@ -95,7 +93,7 @@ def main():
     listDiagn = sortDictDiagn(dictDiagn)        #La funzione di sorting restituisce una lista di tuple
     finalDict = findNameDiagn(conn, listDiagn)
     
-    tabulateDictionary(finalDict)
-   
+    df = tabulateDictionary(finalDict)
+    print(df)
     
     
