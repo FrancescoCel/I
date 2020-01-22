@@ -6,7 +6,6 @@ def SQLConnect():
     #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
     
     if checkDb(conn) is True:
-        
         createDb(conn)
         queryUse(conn)
         executeQueries('diagn_title', 'diagn',conn)
@@ -19,9 +18,8 @@ def SQLConnect():
     return conn
 
 
-
 def checkDb(conn):
-    
+    #Funzione che controlla se il database è stato già creato
     cursor = conn.cursor()
     
     queryCheck = """SHOW DATABASES LIKE 'medical';"""
@@ -59,8 +57,7 @@ def queryUse(conn):
     cursor.execute(query)
     conn.commit()
     
-    
-    
+
 def executeQueries(filename,tablename,conn):
     import pymysql as sql    
     sql.install_as_MySQLdb()
@@ -158,7 +155,6 @@ def executeQueries(filename,tablename,conn):
     conn.commit()
     
 
-
 def checkSymWithErr(conn,value):
     #Funzione che verifica se un determinato sintomo inserito è corretto
     cursor = conn.cursor(buffered = True)
@@ -171,8 +167,8 @@ def checkSymWithErr(conn,value):
         return True
         
     
-
 def searchDiagn(conn,list):
+    #Funzione che, data una lista di sintomi, restituisce l'intera lista di diagnosi ad essi corrispondenti
     import numpy as np
     
     cursor = conn.cursor(buffered = True)
@@ -185,7 +181,6 @@ def searchDiagn(conn,list):
         cursor.execute(querySym)
         idSymptoms.append(cursor.fetchall()) 
 
-    print(type(idSymptoms))
     for i in idSymptoms:
         i = np.asarray(i)
         #Query che restituisce l'id delle malattie collegate all'id dei sintomi(colonna did nella tabella)
@@ -193,7 +188,6 @@ def searchDiagn(conn,list):
         cursor.execute(queryDid)
         idDiseases.append(cursor.fetchall())
         
-
     return idDiseases
     
         
@@ -208,31 +202,31 @@ def searchSymCategories(conn,list):
         querySym = """SELECT cat from sym where name='""" + i +"""';""" 
         cursor.execute(querySym)
         categories.append(cursor.fetchall())
-        
+    
     return categories
+   
     
-def checkDiagnName(idDiseases,cursor):
-    #Funzione che restituisce le diagnosi per i vari sintomi
-    import numpy as np
-    diagnName = []
+def checkDiagnName(cursor, idDiagn):
+    #Funzione che restituisce il nome di una diagnosi dato il suo id
+    queryName = """SELECT title from diagn where id ='"""+idDiagn[0]+"""';"""
+    cursor.execute(queryName) 
+    cursor = cursor.fetchall()
+    cursor = cursor[0][0]
+    if "_" in cursor:
+        pos = cursor.index("_")
+        cursor = cursor[0:pos]
     
-    for i in idDiseases:
-        i = np.asarray(i)
-        for a in range(0,len(i)):
-            #Query che restituisce i nomi delle diagnosi associati all'id
-            queryName = """SELECT title from diagn where id ='"""+i[a][0]+"""';"""
-            cursor.execute(queryName)
-            diagnName.append(cursor.fetchall())
-    #print(diagnName)  
-    return diagnName
+    return cursor
+
+def searchCatDiagn(conn,diagn):
+    #funzione che restituisce le categoria di una diagnosi
+    query = """SELECT cat FROM diagn WHERE id = """+ diagn + """;"""
+    cursor = conn.cursor(buffered = True)
+    cursor.execute(query)
+    cursor = cursor.fetchall()
+    return cursor[0]
 
 def closeConn(conn):
     conn.close()
-
-
-    
-    
-    
-    
     
     
