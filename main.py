@@ -69,7 +69,6 @@ def tabulateDictionary(finalDict):
     d = {'DIAGNOSIS': diagn, 'PROBABILITY': prob }
     df = pd.DataFrame(data = d)
     pd.set_option('display.max_rows', None)
-    #df.set_index(['DIAGNOSIS'], inplace = True)
     return df
     
 
