@@ -7,18 +7,17 @@ Created on Fri Dec 27 10:45:33 2019
 
 def probDiagnose(percList):
     import pomegranate as pg
-    print()
-    sym = pg.DiscreteDistribution({'Gen': 1./3, 'Sup': 1./3, 'Inf': 1./3})
+    sym = pg.DiscreteDistribution({'Gen': 192./389, 'Sup': 125./389, 'Inf': 72./389})
     diagn = pg.ConditionalProbabilityTable(
-            [['Gen','Gen',1],
-             ['Gen','Sup',0.5],
-             ['Gen','Inf',0.5],
-             ['Sup','Gen',0.5],
-             ['Sup','Sup',1],
-             ['Sup','Inf',0],
-             ['Inf','Gen',0.5],
-             ['Inf','Sup',0.25],
-             ['Inf','Inf',1]],[sym])
+            [['Gen','Gen',0.5],
+             ['Gen','Sup',0.25],
+             ['Gen','Inf',0.25],
+             ['Sup','Gen',0.20],
+             ['Sup','Sup',0.75],   
+             ['Sup','Inf',0.05],
+             ['Inf','Gen',0.2],
+             ['Inf','Sup',0.05],
+             ['Inf','Inf',0.75]],[sym])
     
     s1 = pg.State(sym, name = "sym")
     s2 = pg.State(diagn, name = "diagn")
@@ -27,12 +26,11 @@ def probDiagnose(percList):
     model.add_states(s1, s2)
     model.add_edge(s1, s2)
     model.bake()
-    condProbList = []
     
+    condProbList = []
     for i in percList:
         beliefs1 = model.predict_proba({'sym' : i[1]})
         condProbList.append(beliefs1[1].parameters[0])
-        
     
     return condProbList    
             
@@ -76,9 +74,9 @@ def percentSymCat(categories):
     percList = []
     categories = np.asarray(categories)
     for i in categories:
-        if i == "Inferiore":
+        if i == "Inf":
             infCont += 1
-        elif i == "Generale":
+        elif i == "Gen":
             genCont += 1
         else:
             supCont += 1
@@ -92,10 +90,20 @@ def percentSymCat(categories):
            
     return percList
         
-            
-            
-            
-            
+def finalProbDiagn(conn,defListCat, dictDiagn, mergedList):
+    #funzione che restituisce un dizionario con diagnosi e la corrispettiva probabilità finale
+    import SQL
+    for i in dictDiagn.keys():
+        categoria = SQL.searchCatDiagn(conn,i[0])
+        dictDiagn[i] = dictDiagn[i]*defListCat[categoria[0]]
+     
+    corr = (1 - sum(dictDiagn.values())) / len(dictDiagn)
+    for i in dictDiagn.keys():
+        dictDiagn[i] += corr
+        dictDiagn[i] = dictDiagn[i]*100
+        dictDiagn[i] = round(dictDiagn[i], 4)
+        
+    return dictDiagn         
             
             
             
