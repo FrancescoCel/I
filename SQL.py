@@ -11,6 +11,8 @@ def SQLConnect():
         executeQueries('diagn_title', 'diagn',conn)
         executeQueries('diffsydiw', 'diff',conn)
         executeQueries('symptoms2', 'sym',conn)
+        executeQueries('centri','cent',conn)
+        executeQueries('centri_cure','cent_cure',conn)
     else:
         print("Database esistente!")
         queryUse(conn)
@@ -57,7 +59,7 @@ def queryUse(conn):
     cursor.execute(query)
     conn.commit()
     
-
+        
 def executeQueries(filename,tablename,conn):
     import pymysql as sql    
     sql.install_as_MySQLdb()
@@ -121,6 +123,40 @@ def executeQueries(filename,tablename,conn):
         #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
                      _id ,name,cat) VALUES(%s,%s,%s);"""
+        
+    elif filename == 'centri':
+        #Caricamento del worksheet
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        
+        table = sheet['cent']
+        
+        #Query per la creazione della tabella del file centri.xlsx
+        queryCreate = """CREATE TABLE """+ tablename + """(
+                    id CHAR(12),
+                    name VARCHAR(40),
+                    lat CHAR(12),
+                    longi CHAR(12));"""
+        #Query per l'inserimento dei dati nella tabella
+        insertQuery = """ INSERT INTO """+ tablename + """(
+                     id,name,lat,longi) VALUES(%s,%s,%s,%s);"""
+    elif filename == 'centri_cure':
+        #Caricamento del worksheet
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        
+        table = sheet['cure']
+        
+        #Query per la creazione della tabella del file centri_cure.xlsx
+        queryCreate = """CREATE TABLE """+ tablename + """(
+                    idCentri CHAR(10),
+                    idCure CHAR(10));"""
+        #Query per l'inserimento dei dati nella tabella
+        insertQuery = """ INSERT INTO """+ tablename + """(
+                     idCentri,idCure) VALUES(%s,%s);"""
+        
     try:
         cursor.execute(queryDrop)
         cursor.execute(queryCreate)
@@ -150,6 +186,22 @@ def executeQueries(filename,tablename,conn):
             values = (id,title,cat)
             #Esecuzione query
             cursor.execute(insertQuery,values)
+        elif filename == 'centri':
+            id = row[0].value
+            name = row[1].value
+            lat = row[2].value
+            long = row[3].value
+            values = (id,name,lat,long)
+            #Esecuzione query
+            cursor.execute(insertQuery,values)
+        elif filename == 'centri_cure':
+            idCentri = row[0].value
+            idCure = row[1].value
+            values = (idCentri,idCure)
+            #Esecuzione query
+            cursor.execute(insertQuery,values)
+            
+            
     cursor.close()      
     #Commit della transazione
     conn.commit()
