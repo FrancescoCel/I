@@ -1,8 +1,8 @@
 import mysql.connector
 
 def SQLConnect():
-    conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
-    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
+    #conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
+    conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
     #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
     
     if checkDb(conn) is True:
@@ -72,8 +72,8 @@ def executeQueries(filename,tablename,conn):
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['id']
@@ -86,13 +86,13 @@ def executeQueries(filename,tablename,conn):
  
        #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
-                     id,title,cat) VALUES(%s,%s,%s);"""
+                     id,title,cat) VALUES(LOWER(%s),LOWER(%s),LOWER(%s));"""
         
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['syd']
@@ -108,8 +108,8 @@ def executeQueries(filename,tablename,conn):
         
     elif filename == 'symptoms2':    
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['_id']
@@ -122,12 +122,12 @@ def executeQueries(filename,tablename,conn):
         
         #Query per l'inserimento dei dati nella tabella
         insertQuery = """INSERT INTO """+ tablename +"""(
-                     _id ,name,cat) VALUES(%s,%s,%s);"""
+                     _id ,name,cat) VALUES(%s,LOWER(%s),LOWER(%s));"""
         
     elif filename == 'centri':
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cent']
@@ -135,7 +135,7 @@ def executeQueries(filename,tablename,conn):
         #Query per la creazione della tabella del file centri.xlsx
         queryCreate = """CREATE TABLE """+ tablename + """(
                     id CHAR(12),
-                    name VARCHAR(40),
+                    name VARCHAR(50),
                     lat CHAR(12),
                     longi CHAR(12));"""
         #Query per l'inserimento dei dati nella tabella
@@ -143,8 +143,8 @@ def executeQueries(filename,tablename,conn):
                      id,name,lat,longi) VALUES(%s,%s,%s,%s);"""
     elif filename == 'centri_cure':
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cure']
@@ -217,6 +217,15 @@ def checkSymWithErr(conn,value):
         return False
     else:
         return True
+
+def checkDiseaseWithErr(conn,value):
+    #Funzione che verifica la presenza nel database di una malattia e restituisce una variabile che in caso
+    # affermativo contiene l'ID della malattia, in caso negativo è vuota
+    cursor = conn.cursor(buffered = True)
+    queryDis = """SELECT id from diagn where title like '%"""+value+"""%';"""
+    cursor.execute(queryDis)
+    check = cursor.fetchall()
+    return check[0][0]
         
     
 def searchDiagn(conn,list):
@@ -239,7 +248,7 @@ def searchDiagn(conn,list):
         queryDid = """SELECT did from diff where syd='"""+ i[0][0] +"""';"""
         cursor.execute(queryDid)
         idDiseases.append(cursor.fetchall())
-        
+    
     return idDiseases
     
         
@@ -254,7 +263,6 @@ def searchSymCategories(conn,list):
         querySym = """SELECT cat from sym where name='""" + i +"""';""" 
         cursor.execute(querySym)
         categories.append(cursor.fetchall())
-    
     return categories
    
     
@@ -267,7 +275,6 @@ def checkDiagnName(cursor, idDiagn):
     if "_" in cursor:
         pos = cursor.index("_")
         cursor = cursor[0:pos]
-    
     return cursor
 
 def searchCatDiagn(conn,diagn):
@@ -277,6 +284,16 @@ def searchCatDiagn(conn,diagn):
     cursor.execute(query)
     cursor = cursor.fetchall()
     return cursor[0]
+
+
+
+def findHospitals(conn, diagn):
+    #Funzione che trova gli ospedali che curano una malattia
+    cursor = conn.cursor(buffered = True)
+    query = """SELECT cent.name, cent.lat, cent.longi FROM cent INNER JOIN cent_cure on cent.id = cent_cure.idCentri WHERE idCure ='"""+ diagn +"""';"""
+    cursor.execute(query)
+    cursor = cursor.fetchall()
+    return cursor
 
 def closeConn(conn):
     conn.close()
