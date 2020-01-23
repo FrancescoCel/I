@@ -30,8 +30,7 @@ def mergeList(diagn):
     #funzione che unisce le liste delle diagnosi associate ai sintomi
     mergedList = []
     for i in range (0,len(diagn)):
-        mergedList += diagn[i]
-        
+        mergedList += diagn[i]   
     return mergedList
 
 def countOcc(mergedList):
@@ -47,11 +46,12 @@ def countOcc(mergedList):
 def percOfDiagn(listSize,occDict):
     #funzione che restituisce un dizionario con le percentuali delle diagnosi
     for i in occDict.keys():
-        occDict[i] = occDict[i]/listSize
+        occDict[i] = occDict[i]/listSize    
     return occDict
     
 def sortDictDiagn(dictDiagn):
     #funzione che ordina i valori del dizionario con le diagnosi
+    print(sorted(dictDiagn.items(), key = lambda kv:(kv[1], kv[0]), reverse = True))
     return sorted(dictDiagn.items(), key = lambda kv:(kv[1], kv[0]), reverse = True)
 
     
@@ -91,7 +91,6 @@ def main():
     dictDiagn = BayesianNet.finalProbDiagn(conn, defListCat, dictDiagn, mergedList)
     listDiagn = sortDictDiagn(dictDiagn)        #La funzione di sorting restituisce una lista di tuple
     finalDict = findNameDiagn(conn, listDiagn)
-    
     df = tabulateDictionary(finalDict)
     print(df)
     
