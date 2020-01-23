@@ -102,6 +102,7 @@ def finalProbDiagn(conn,defListCat, dictDiagn, mergedList):
         dictDiagn[i] += corr
         dictDiagn[i] = dictDiagn[i]*100
         dictDiagn[i] = round(dictDiagn[i], 4)
+    
         
     return dictDiagn         
             
