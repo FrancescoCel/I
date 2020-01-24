@@ -9,8 +9,8 @@ def SQLConnect():
     conn: connection
         Connessione a MySQL
     """
-    #conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
-    conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
+    conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
+    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
     #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
     
     if checkDb(conn) is True:
@@ -118,8 +118,8 @@ def executeQueries(filename,tablename,conn):
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['id']
@@ -137,8 +137,8 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['syd']
@@ -154,8 +154,8 @@ def executeQueries(filename,tablename,conn):
         
     elif filename == 'symptoms2':    
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['_id']
@@ -172,8 +172,8 @@ def executeQueries(filename,tablename,conn):
         
     elif filename == 'centri':
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cent']
@@ -189,8 +189,8 @@ def executeQueries(filename,tablename,conn):
                      id,name,lat,longi) VALUES(%s,%s,%s,%s);"""
     elif filename == 'centri_cure':
         #Caricamento del worksheet
-        #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
+        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cure']
