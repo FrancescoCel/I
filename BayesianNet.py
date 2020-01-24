@@ -6,6 +6,25 @@ Created on Fri Dec 27 10:45:33 2019
 """
 
 def probDiagnose(percList):
+    """
+    Funzione che riceve in input una lista con tre tuple contenenti ognuna una
+    categoria e la loro percentuale e, attraverso l'uso di una rete bayesiana ed
+    il calcolo delle probabilità condizionate, restituisce una lista con le 
+    probabilità delle categorie delle diagnosi condizionate dalle categorie
+    dei sintomi
+    
+    Parameters
+    ----------
+    percList: list
+        Lista contenente tre tuple: ogni tupla contiene una categoria  e la
+        rispettiva percentuale(per i sintomi) 
+    
+    Returns
+    -------
+    condProbList: list
+        Lista contenente tre tuple: ogni tupla contiene una categoria e la
+        rispettiva probabilità(per le diagnosi)  
+    """
     import pomegranate as pg
     sym = pg.DiscreteDistribution({'gen': 192./389, 'sup': 125./389, 'inf': 72./389})
     diagn = pg.ConditionalProbabilityTable(
@@ -35,21 +54,61 @@ def probDiagnose(percList):
     return condProbList    
             
 def weightedProbCat(percList, condProbList):
-       #funzione che restituisce le probabilità pesate
-       lista = []
-       cont = 0
-       for i in percList:
-           val = i[0]
-           temp = {}
-           temp['inf'] = (condProbList[cont])['inf'] * val
-           temp['sup'] = (condProbList[cont])['sup'] * val
-           temp['gen'] = (condProbList[cont])['gen'] * val
-           lista.append(temp)
-           cont += 1
-           
-       return lista
+   """
+   Funzione che prende in input una lista con le categorie e le percentuali
+   dei sintomi e una lista con le categorie e le probabilità delle diagnosi e
+   restituisce una lista con le probabilità pesate delle diagnosi, ottenute
+   andando a moltiplicare ogni categoria delle diagnosi per la corrispettiva
+   categoria dei sintomi
+
+   Parameters
+   ----------
+   percList: list
+       Lista contenente tre tuple: ogni tupla contiene una categoria  e la
+       rispettiva percentuale(per i sintomi) 
+   condProbList: list
+       Lista contenente tre tuple: ogni tupla contiene una categoria e la
+       rispettiva probabilità(per le diagnosi)    
+    
+   Returns
+   -------
+   lista: list
+       lista con le probabilità pesate delle diagnosi, ottenute
+       andando a moltiplicare ogni categoria delle diagnosi per la 
+       corrispettiva categoria dei sintomi
+    
+   """
+   cont = 0
+   lista = []
+   for i in percList:
+       val = i[0]
+       temp = {}
+       temp['inf'] = (condProbList[cont])['inf'] * val
+       temp['sup'] = (condProbList[cont])['sup'] * val
+       temp['gen'] = (condProbList[cont])['gen'] * val
+       lista.append(temp)
+       cont += 1
+       
+   return lista
    
 def defProbCat(weightProb):
+    """
+    Funzione che somma le probabilità della stessa categoria, pesate nella
+    funzione weightedProbCat(ad esempio somma tutte le probabilità delle 
+    categorie inf, sup e gen) e restituisce un dizionario unico contenente le
+    probabilità finali
+    
+    Parameters
+   ----------
+   weightProb: list
+       lista con le probabilità pesate delle diagnosi
+      
+   Returns
+   -------
+   defList: dictionary
+       dizionario contenente le probabilità finali per le categorie inf,sup e ù
+       gen
+    """
     #funzione che restituisce le probabilità definitive delle categorie
     i = 0
     defList = {'inf':0,'sup':0,'gen':0}
@@ -68,21 +127,19 @@ def defProbCat(weightProb):
 def probSymCat(categories):
     """
     Funzione che riceve in input la lista delle varie categorie a cui appartengono
-    le diagnosi collegate ai sintomi inseriti dall'utente. Per ognuna delle tre
-    categorie calcola il rapporto tra il numero di occorrenze e la lunghezza
-    totale della lista
+    i sintomi inseriti dall'utente. Per ognuna delle tre categorie calcola il 
+    rapporto tra il numero di occorrenze e la lunghezza totale della lista
     
     Parameters
     ----------
     categories: list
-        Lista di categorie a cui appartengono le diagnosi collegate ai sintomi
-        inseriti dall'utente
+        Lista di categorie a cui appartengono i sintomi inseriti dall'utente
     
     Returns
     -------
     probList: list
         Lista contenente tre tuple: ogni tupla contiene una categoria e la
-        rispettiva probabilità    
+        rispettiva percentuale   
     """
     import numpy as np
     infCont = 0
