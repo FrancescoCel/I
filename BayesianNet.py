@@ -65,13 +65,30 @@ def defProbCat(weightProb):
     return defList
     
     
-def percentSymCat(categories):
-    #Funzione che restituisce la percentuale della categoria piu' frequente nei sintomi  
+def probSymCat(categories):
+    """
+    Funzione che riceve in input la lista delle varie categorie a cui appartengono
+    le diagnosi collegate ai sintomi inseriti dall'utente. Per ognuna delle tre
+    categorie calcola il rapporto tra il numero di occorrenze e la lunghezza
+    totale della lista
+    
+    Parameters
+    ----------
+    categories: list
+        Lista di categorie a cui appartengono le diagnosi collegate ai sintomi
+        inseriti dall'utente
+    
+    Returns
+    -------
+    probList: list
+        Lista contenente tre tuple: ogni tupla contiene una categoria e la
+        rispettiva probabilità    
+    """
     import numpy as np
     infCont = 0
     supCont = 0
     genCont = 0
-    percList = []
+    probList = []
     categories = np.asarray(categories)
     for i in categories:
         if i == "inf":
@@ -82,16 +99,36 @@ def percentSymCat(categories):
             supCont += 1
            
     if genCont != 0:
-        percList.append((genCont/len(categories), "gen"))
+        probList.append((genCont/len(categories), "gen"))
     if infCont != 0:
-        percList.append((infCont/len(categories), "inf"))
+        probList.append((infCont/len(categories), "inf"))
     if supCont != 0:
-        percList.append((supCont/len(categories), "sup"))
+        probList.append((supCont/len(categories), "sup"))
            
-    return percList
+    return probList
         
-def finalProbDiagn(conn,defListCat, dictDiagn, mergedList):
-    #funzione che restituisce un dizionario con diagnosi e la corrispettiva probabilità finale
+def finalProbDiagn(conn,defListCat, dictDiagn):
+    """
+    Funzione che restituisce un dizionario con diagnosi e le corrispettive 
+    probabilità finali
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    defListCat: list
+        Lista contenente le probabilità che la diagnosi appartenga ad una delle
+        tre categorie
+    dictDiagn: dict
+        Dizionario le cui chiavi sono le diagnosi e i rispettivi valori indicano
+        la probabilità che l'utente abbia quella diagnosi
+    
+    Returns
+    -------
+    dictDiagn: dict
+        Dizionario le cui chiavi sono le diagnosi e i cui valori indicano le
+        probabilità pesate di ogni diagnosi, espressa in percentuale
+    """
     import SQL
     for i in dictDiagn.keys():
         categoria = SQL.searchCatDiagn(conn,i[0])
@@ -103,7 +140,6 @@ def finalProbDiagn(conn,defListCat, dictDiagn, mergedList):
         dictDiagn[i] = dictDiagn[i]*100
         dictDiagn[i] = round(dictDiagn[i], 4)
     
-        
     return dictDiagn         
             
             
