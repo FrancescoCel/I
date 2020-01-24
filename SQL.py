@@ -1,6 +1,14 @@
 import mysql.connector
 
 def SQLConnect():
+    """
+    Funzione che crea la connessione a MySQL
+    
+    Returns
+    -------
+    conn: connection
+        Connessione a MySQL
+    """
     #conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
     conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
     #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
@@ -21,7 +29,19 @@ def SQLConnect():
 
 
 def checkDb(conn):
-    #Funzione che controlla se il database è stato già creato
+    """
+    Funzione che controlla se il database è stato già creato
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione a MySQL
+    
+    Returns
+    -------
+    boolean
+        True se il database esiste, False altrimenti
+    """
     cursor = conn.cursor()
     
     queryCheck = """SHOW DATABASES LIKE 'medical';"""
@@ -35,9 +55,16 @@ def checkDb(conn):
 
 
 def createDb(conn):
+    """
+    Funzione che crea il database
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione a MySQL
+    """
     import pymysql as sql    
     sql.install_as_MySQLdb()
-    import MySQLdb as mysql
     
     cursor = conn.cursor()
     query1 = """CREATE DATABASE medical; """
@@ -49,11 +76,18 @@ def createDb(conn):
          conn.commit()
     except sql.ProgrammingError:
          pass
-    
     cursor.close()
     
 
 def queryUse(conn):
+    """
+    Funzione che crea la query che consente di utilizzare il database medical
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione a MySQL
+    """
     cursor = conn.cursor()
     query = """USE medical;"""
     cursor.execute(query)
@@ -61,9 +95,21 @@ def queryUse(conn):
     
         
 def executeQueries(filename,tablename,conn):
+    """
+    Funzione che crea una tabella ed inserisce i valori al suo interno partendo
+    da un file excel
+    
+    Parameters
+    ----------
+    filename: str
+        Nome del file contenente la tabella
+    tablename: str
+        Nome da dare alla tabella
+    conn: connection
+        Connessione al database
+    """
     import pymysql as sql    
     sql.install_as_MySQLdb()
-    import MySQLdb as mysql
     import openpyxl as xl
     
     cursor = conn.cursor()  
@@ -73,7 +119,7 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['id']
@@ -92,7 +138,7 @@ def executeQueries(filename,tablename,conn):
         
         #Caricamento del worksheet
         #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['syd']
@@ -109,7 +155,7 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'symptoms2':    
         #Caricamento del worksheet
         #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['_id']
@@ -127,7 +173,7 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'centri':
         #Caricamento del worksheet
         #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cent']
@@ -144,7 +190,7 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'centri_cure':
         #Caricamento del worksheet
         #sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        sheet = xl.load_workbook("C:/Users/Francesco/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cure']
@@ -208,7 +254,21 @@ def executeQueries(filename,tablename,conn):
     
 
 def checkSymWithErr(conn,value):
-    #Funzione che verifica se un determinato sintomo inserito è corretto
+    """
+    Funzione che verifica se il sintomo è presente nel database
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    value: str
+        Nome del sintomo dai cui verificare la presenza
+        
+    Returns
+    -------
+    boolean
+        True se il sintomo è presente, False altrimenti
+    """
     cursor = conn.cursor(buffered = True)
     querySym = """SELECT _id from sym where name='""" + value +"""';""" 
     cursor.execute(querySym)
@@ -219,17 +279,46 @@ def checkSymWithErr(conn,value):
         return True
 
 def checkDiseaseWithErr(conn,value):
-    #Funzione che verifica la presenza nel database di una malattia e restituisce una variabile che in caso
-    # affermativo contiene l'ID della malattia, in caso negativo è vuota
+    """
+    Funzione che verifica la presenza nel database di una malattia e restituisce
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    value: Nome della malattia di cui veridicare la presenza
+    
+    Returns
+    -------
+    check: str
+         Variabile che contiene l'ID della malattia se essa è presente nel 
+         database. In caso contrario è vuota
+    """
     cursor = conn.cursor(buffered = True)
     queryDis = """SELECT id from diagn where title like '%"""+value+"""%';"""
     cursor.execute(queryDis)
     check = cursor.fetchall()
-    return check[0][0]
+    check = check[0][0]
+    return check
         
     
 def searchDiagn(conn,list):
-    #Funzione che, data una lista di sintomi, restituisce l'intera lista di diagnosi ad essi corrispondenti
+    """
+    Funzione che, data una lista di sintomi, restituisce la lista di tutte le
+    diagnosi ad essi corrispondenti
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    list: list
+        Lista contenente i nomi dei sintomi
+        
+    Returns
+    -------
+    idDiseases: list
+        Lista di liste. Ogni lista contiene gli di delle diagnosi relative ad un sintomo
+    """
     import numpy as np
     
     cursor = conn.cursor(buffered = True)
@@ -237,7 +326,7 @@ def searchDiagn(conn,list):
     idSymptoms = []
     
     for i in list:
-        #Query che preleva l'id corrispondenti ai sintomi
+        #Query che preleva gli id corrispondenti ai sintomi
         querySym = """SELECT DISTINCT _id from sym where name='""" + i +"""';""" 
         cursor.execute(querySym)
         idSymptoms.append(cursor.fetchall()) 
@@ -253,8 +342,22 @@ def searchDiagn(conn,list):
     
         
 def searchSymCategories(conn,list):
-    #Funzione che restituisce le categorie per ogni sintomo inserito
+    """
+    Funzione che, ad ogni sintomo presente nella lista, associa la rispettiva 
+    categoria ci appartenenza
     
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    list: list
+        Lista di sintomi
+    
+    Returns
+    -------
+    categories: list
+        Lista di categorie
+    """
     cursor = conn.cursor(buffered = True)
     categories = []
     
@@ -266,8 +369,22 @@ def searchSymCategories(conn,list):
     return categories
    
     
-def checkDiagnName(cursor, idDiagn):
-    #Funzione che restituisce il nome di una diagnosi dato il suo id
+def findDiagnName(cursor, idDiagn):
+    """
+    Funzione che restituisce il nome di una diagnosi dato il suo id
+    
+    Parameters
+    ----------
+    cursor: cursor
+        Cursore per la query
+    idDiagn: str
+        id della diagnosi di cui si vuole scoprire il nome
+    
+    Returns
+    -------
+    cursor: str
+        Nome della diagnosi
+    """
     queryName = """SELECT title from diagn where id ='"""+idDiagn[0]+"""';"""
     cursor.execute(queryName) 
     cursor = cursor.fetchall()
@@ -278,17 +395,44 @@ def checkDiagnName(cursor, idDiagn):
     return cursor
 
 def searchCatDiagn(conn,diagn):
-    #funzione che restituisce le categoria di una diagnosi
+    """
+    Funzione che restituisce la categoria a cui una diagnosi appartiene
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    diagn: str
+        Nome della diagnosi
+    
+    Returns
+    -------
+    cursor: str
+        Nome della categoria a cui la diagnosi appartiene
+    """
     query = """SELECT cat FROM diagn WHERE id = """+ diagn + """;"""
     cursor = conn.cursor(buffered = True)
     cursor.execute(query)
     cursor = cursor.fetchall()
     return cursor[0]
 
-
-
 def findHospitals(conn, diagn):
-    #Funzione che trova gli ospedali che curano una malattia
+    """
+    Funzione che trova gli ospedali che curano una malattia
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    diagn: str
+        Nome della diagnosi
+    
+    Returns
+    -------
+    cursor: list
+        Lista di triple (nome-latitudine-longitudine), ognuna rappresentante un
+        ospedale che cura la malattia
+    """
     cursor = conn.cursor(buffered = True)
     query = """SELECT cent.name, cent.lat, cent.longi FROM cent INNER JOIN cent_cure on cent.id = cent_cure.idCentri WHERE idCure ='"""+ diagn +"""';"""
     cursor.execute(query)
@@ -296,6 +440,14 @@ def findHospitals(conn, diagn):
     return cursor
 
 def closeConn(conn):
+    """
+    Funzione che chiude la connessione al database
+    
+    Parameters
+    ----------
+    conn: connection
+        Connessione al database
+    """
     conn.close()
     
     
