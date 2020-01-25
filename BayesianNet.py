@@ -99,15 +99,15 @@ def defProbCat(weightProb):
     probabilità finali
     
     Parameters
-   ----------
-   weightProb: list
-       lista con le probabilità pesate delle diagnosi
+    ----------
+    weightProb: list
+        lista con le probabilità pesate delle diagnosi
       
-   Returns
-   -------
-   defList: dictionary
-       dizionario contenente le probabilità finali per le categorie inf,sup e ù
-       gen
+    Returns
+    -------
+    defList: dictionary
+        dizionario contenente le probabilità finali per le categorie inf,sup e ù
+        gen
     """
     #funzione che restituisce le probabilità definitive delle categorie
     i = 0
