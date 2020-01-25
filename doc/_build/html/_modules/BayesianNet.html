@@ -1,0 +1,289 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>BayesianNet &#8212; medical 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">medical 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for BayesianNet</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Fri Dec 27 10:45:33 2019</span>
+
+<span class="sd">@author: utente</span>
+<span class="sd">&quot;&quot;&quot;</span>
+
+<div class="viewcode-block" id="probDiagnose"><a class="viewcode-back" href="../rst/BayesianNet.html#BayesianNet.probDiagnose">[docs]</a><span class="k">def</span> <span class="nf">probDiagnose</span><span class="p">(</span><span class="n">percList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che riceve in input una lista con tre tuple contenenti ognuna una</span>
+<span class="sd">    categoria e la loro percentuale e, attraverso l&#39;uso di una rete bayesiana ed</span>
+<span class="sd">    il calcolo delle probabilità condizionate, restituisce una lista con le </span>
+<span class="sd">    probabilità delle categorie delle diagnosi condizionate dalle categorie</span>
+<span class="sd">    dei sintomi</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    percList: list</span>
+<span class="sd">        Lista contenente tre tuple: ogni tupla contiene una categoria  e la</span>
+<span class="sd">        rispettiva percentuale(per i sintomi) </span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    condProbList: list</span>
+<span class="sd">        Lista contenente tre tuple: ogni tupla contiene una categoria e la</span>
+<span class="sd">        rispettiva probabilità(per le diagnosi)  </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pomegranate</span> <span class="k">as</span> <span class="nn">pg</span>
+    <span class="n">sym</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">DiscreteDistribution</span><span class="p">({</span><span class="s1">&#39;gen&#39;</span><span class="p">:</span> <span class="mf">192.</span><span class="o">/</span><span class="mi">389</span><span class="p">,</span> <span class="s1">&#39;sup&#39;</span><span class="p">:</span> <span class="mf">125.</span><span class="o">/</span><span class="mi">389</span><span class="p">,</span> <span class="s1">&#39;inf&#39;</span><span class="p">:</span> <span class="mf">72.</span><span class="o">/</span><span class="mi">389</span><span class="p">})</span>
+    <span class="n">diagn</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">ConditionalProbabilityTable</span><span class="p">(</span>
+            <span class="p">[[</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span><span class="mf">0.5</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span><span class="s1">&#39;sup&#39;</span><span class="p">,</span><span class="mf">0.25</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="mf">0.25</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;sup&#39;</span><span class="p">,</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span><span class="mf">0.20</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;sup&#39;</span><span class="p">,</span><span class="s1">&#39;sup&#39;</span><span class="p">,</span><span class="mf">0.75</span><span class="p">],</span>   
+             <span class="p">[</span><span class="s1">&#39;sup&#39;</span><span class="p">,</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="mf">0.05</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="s1">&#39;gen&#39;</span><span class="p">,</span><span class="mf">0.2</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="s1">&#39;sup&#39;</span><span class="p">,</span><span class="mf">0.05</span><span class="p">],</span>
+             <span class="p">[</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="s1">&#39;inf&#39;</span><span class="p">,</span><span class="mf">0.75</span><span class="p">]],[</span><span class="n">sym</span><span class="p">])</span>
+    
+    <span class="n">s1</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="n">sym</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;sym&quot;</span><span class="p">)</span>
+    <span class="n">s2</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">State</span><span class="p">(</span><span class="n">diagn</span><span class="p">,</span> <span class="n">name</span> <span class="o">=</span> <span class="s2">&quot;diagn&quot;</span><span class="p">)</span>
+    
+    <span class="n">model</span> <span class="o">=</span> <span class="n">pg</span><span class="o">.</span><span class="n">BayesianNetwork</span><span class="p">(</span><span class="s2">&quot;Diagnose finder&quot;</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_states</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">add_edge</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span> <span class="n">s2</span><span class="p">)</span>
+    <span class="n">model</span><span class="o">.</span><span class="n">bake</span><span class="p">()</span>
+    
+    <span class="n">condProbList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">percList</span><span class="p">:</span>
+        <span class="n">beliefs1</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict_proba</span><span class="p">({</span><span class="s1">&#39;sym&#39;</span> <span class="p">:</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]})</span>
+        <span class="n">condProbList</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">beliefs1</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">.</span><span class="n">parameters</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+    
+    <span class="k">return</span> <span class="n">condProbList</span>    </div>
+            
+<div class="viewcode-block" id="weightedProbCat"><a class="viewcode-back" href="../rst/BayesianNet.html#BayesianNet.weightedProbCat">[docs]</a><span class="k">def</span> <span class="nf">weightedProbCat</span><span class="p">(</span><span class="n">percList</span><span class="p">,</span> <span class="n">condProbList</span><span class="p">):</span>
+   <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">   Funzione che prende in input una lista con le categorie e le percentuali</span>
+<span class="sd">   dei sintomi e una lista con le categorie e le probabilità delle diagnosi e</span>
+<span class="sd">   restituisce una lista con le probabilità pesate delle diagnosi, ottenute</span>
+<span class="sd">   andando a moltiplicare ogni categoria delle diagnosi per la corrispettiva</span>
+<span class="sd">   categoria dei sintomi</span>
+
+<span class="sd">   Parameters</span>
+<span class="sd">   ----------</span>
+<span class="sd">   percList: list</span>
+<span class="sd">       Lista contenente tre tuple: ogni tupla contiene una categoria  e la</span>
+<span class="sd">       rispettiva percentuale(per i sintomi) </span>
+<span class="sd">   condProbList: list</span>
+<span class="sd">       Lista contenente tre tuple: ogni tupla contiene una categoria e la</span>
+<span class="sd">       rispettiva probabilità(per le diagnosi)    </span>
+<span class="sd">    </span>
+<span class="sd">   Returns</span>
+<span class="sd">   -------</span>
+<span class="sd">   lista: list</span>
+<span class="sd">       lista con le probabilità pesate delle diagnosi, ottenute</span>
+<span class="sd">       andando a moltiplicare ogni categoria delle diagnosi per la </span>
+<span class="sd">       corrispettiva categoria dei sintomi</span>
+<span class="sd">    </span>
+<span class="sd">   &quot;&quot;&quot;</span>
+   <span class="n">cont</span> <span class="o">=</span> <span class="mi">0</span>
+   <span class="n">lista</span> <span class="o">=</span> <span class="p">[]</span>
+   <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">percList</span><span class="p">:</span>
+       <span class="n">val</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+       <span class="n">temp</span> <span class="o">=</span> <span class="p">{}</span>
+       <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;inf&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">condProbList</span><span class="p">[</span><span class="n">cont</span><span class="p">])[</span><span class="s1">&#39;inf&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">val</span>
+       <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;sup&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">condProbList</span><span class="p">[</span><span class="n">cont</span><span class="p">])[</span><span class="s1">&#39;sup&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">val</span>
+       <span class="n">temp</span><span class="p">[</span><span class="s1">&#39;gen&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">condProbList</span><span class="p">[</span><span class="n">cont</span><span class="p">])[</span><span class="s1">&#39;gen&#39;</span><span class="p">]</span> <span class="o">*</span> <span class="n">val</span>
+       <span class="n">lista</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">temp</span><span class="p">)</span>
+       <span class="n">cont</span> <span class="o">+=</span> <span class="mi">1</span>
+       
+   <span class="k">return</span> <span class="n">lista</span></div>
+   
+<div class="viewcode-block" id="defProbCat"><a class="viewcode-back" href="../rst/BayesianNet.html#BayesianNet.defProbCat">[docs]</a><span class="k">def</span> <span class="nf">defProbCat</span><span class="p">(</span><span class="n">weightProb</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che somma le probabilità della stessa categoria, pesate nella</span>
+<span class="sd">    funzione weightedProbCat(ad esempio somma tutte le probabilità delle </span>
+<span class="sd">    categorie inf, sup e gen) e restituisce un dizionario unico contenente le</span>
+<span class="sd">    probabilità finali</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    weightProb: list</span>
+<span class="sd">        lista con le probabilità pesate delle diagnosi</span>
+<span class="sd">      </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    defList: dictionary</span>
+<span class="sd">        dizionario contenente le probabilità finali per le categorie inf,sup e ù</span>
+<span class="sd">        gen</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#funzione che restituisce le probabilità definitive delle categorie</span>
+    <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">defList</span> <span class="o">=</span> <span class="p">{</span><span class="s1">&#39;inf&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;sup&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="s1">&#39;gen&#39;</span><span class="p">:</span><span class="mi">0</span><span class="p">}</span>
+    <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;inf&#39;</span>
+    <span class="k">while</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">3</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">t</span> <span class="ow">in</span> <span class="n">weightProb</span><span class="p">:</span>
+            <span class="n">defList</span><span class="p">[</span><span class="n">string</span><span class="p">]</span> <span class="o">=</span> <span class="n">defList</span><span class="p">[</span><span class="n">string</span><span class="p">]</span><span class="o">+</span><span class="n">t</span><span class="p">[</span><span class="n">string</span><span class="p">]</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;sup&#39;</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="mi">1</span><span class="p">:</span>
+            <span class="n">string</span> <span class="o">=</span> <span class="s1">&#39;gen&#39;</span>
+        <span class="n">i</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">defList</span></div>
+    
+    
+<div class="viewcode-block" id="probSymCat"><a class="viewcode-back" href="../rst/BayesianNet.html#BayesianNet.probSymCat">[docs]</a><span class="k">def</span> <span class="nf">probSymCat</span><span class="p">(</span><span class="n">categories</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che riceve in input la lista delle varie categorie a cui appartengono</span>
+<span class="sd">    i sintomi inseriti dall&#39;utente. Per ognuna delle tre categorie calcola il </span>
+<span class="sd">    rapporto tra il numero di occorrenze e la lunghezza totale della lista</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    categories: list</span>
+<span class="sd">        Lista di categorie a cui appartengono i sintomi inseriti dall&#39;utente</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    probList: list</span>
+<span class="sd">        Lista contenente tre tuple: ogni tupla contiene una categoria e la</span>
+<span class="sd">        rispettiva percentuale   </span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+    <span class="n">infCont</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">supCont</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">genCont</span> <span class="o">=</span> <span class="mi">0</span>
+    <span class="n">probList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">asarray</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">categories</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;inf&quot;</span><span class="p">:</span>
+            <span class="n">infCont</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">elif</span> <span class="n">i</span> <span class="o">==</span> <span class="s2">&quot;gen&quot;</span><span class="p">:</span>
+            <span class="n">genCont</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="n">supCont</span> <span class="o">+=</span> <span class="mi">1</span>
+           
+    <span class="k">if</span> <span class="n">genCont</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">probList</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">genCont</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="s2">&quot;gen&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">infCont</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">probList</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">infCont</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="s2">&quot;inf&quot;</span><span class="p">))</span>
+    <span class="k">if</span> <span class="n">supCont</span> <span class="o">!=</span> <span class="mi">0</span><span class="p">:</span>
+        <span class="n">probList</span><span class="o">.</span><span class="n">append</span><span class="p">((</span><span class="n">supCont</span><span class="o">/</span><span class="nb">len</span><span class="p">(</span><span class="n">categories</span><span class="p">),</span> <span class="s2">&quot;sup&quot;</span><span class="p">))</span>
+           
+    <span class="k">return</span> <span class="n">probList</span></div>
+        
+<div class="viewcode-block" id="finalProbDiagn"><a class="viewcode-back" href="../rst/BayesianNet.html#BayesianNet.finalProbDiagn">[docs]</a><span class="k">def</span> <span class="nf">finalProbDiagn</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">defListCat</span><span class="p">,</span> <span class="n">dictDiagn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che restituisce un dizionario con diagnosi e le corrispettive </span>
+<span class="sd">    probabilità finali</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conn: connection</span>
+<span class="sd">        Connessione al database</span>
+<span class="sd">    defListCat: list</span>
+<span class="sd">        Lista contenente le probabilità che la diagnosi appartenga ad una delle</span>
+<span class="sd">        tre categorie</span>
+<span class="sd">    dictDiagn: dict</span>
+<span class="sd">        Dizionario le cui chiavi sono le diagnosi e i rispettivi valori indicano</span>
+<span class="sd">        la probabilità che l&#39;utente abbia quella diagnosi</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    dictDiagn: dict</span>
+<span class="sd">        Dizionario le cui chiavi sono le diagnosi e i cui valori indicano le</span>
+<span class="sd">        probabilità pesate di ogni diagnosi, espressa in percentuale</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">SQL</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dictDiagn</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">categoria</span> <span class="o">=</span> <span class="n">SQL</span><span class="o">.</span><span class="n">searchCatDiagn</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+        <span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="n">defListCat</span><span class="p">[</span><span class="n">categoria</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span>
+     
+    <span class="n">corr</span> <span class="o">=</span> <span class="p">(</span><span class="mi">1</span> <span class="o">-</span> <span class="nb">sum</span><span class="p">(</span><span class="n">dictDiagn</span><span class="o">.</span><span class="n">values</span><span class="p">()))</span> <span class="o">/</span> <span class="nb">len</span><span class="p">(</span><span class="n">dictDiagn</span><span class="p">)</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">dictDiagn</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">+=</span> <span class="n">corr</span>
+        <span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span>
+        <span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="nb">round</span><span class="p">(</span><span class="n">dictDiagn</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="mi">4</span><span class="p">)</span>
+    
+    <span class="k">return</span> <span class="n">dictDiagn</span>         </div>
+            
+            
+            
+            
+            
+            
+            
+            
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">medical 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Francesco Benedetti.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

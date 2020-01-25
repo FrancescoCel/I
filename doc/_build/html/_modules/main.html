@@ -1,0 +1,380 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>main &#8212; medical 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">medical 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" accesskey="U">Module code</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <h1>Source code for main</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Created on Thu Dec  5 10:37:07 2019</span>
+
+<span class="sd">@author: franc</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="kn">import</span> <span class="nn">mysql.connector</span>
+<span class="kn">import</span> <span class="nn">SQL</span>
+<span class="kn">import</span> <span class="nn">BayesianNet</span>
+<span class="kn">import</span> <span class="nn">GeoLocation</span>
+
+<div class="viewcode-block" id="read_symptoms"><a class="viewcode-back" href="../rst/main.html#main.read_symptoms">[docs]</a><span class="k">def</span> <span class="nf">read_symptoms</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione utilizzata per prendere in input i sintomi che un utente ha</span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conn: connection</span>
+<span class="sd">        connessione al database. Serve per verificare che il nome di un</span>
+<span class="sd">        sintomo inserito sia corretto</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list: list</span>
+<span class="sd">        Lista di sintomi inseriti dall&#39;utente</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="nb">list</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="n">stop</span> <span class="o">=</span> <span class="s2">&quot;/&quot;</span>
+    <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+        <span class="n">value</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="k">if</span> <span class="n">value</span> <span class="o">!=</span> <span class="n">stop</span><span class="p">:</span>
+            <span class="n">goodVal</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="k">while</span> <span class="n">goodVal</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                <span class="n">goodVal</span> <span class="o">=</span> <span class="n">SQL</span><span class="o">.</span><span class="n">checkSymWithErr</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">value</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">goodVal</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+                    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Last symptom inserted is wrong. Please insert a valid one.&quot;</span><span class="p">)</span>
+                    <span class="n">value</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+                    <span class="k">if</span> <span class="n">value</span><span class="o">==</span><span class="n">stop</span><span class="p">:</span>
+                        <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+                            <span class="k">continue</span>
+                        <span class="k">else</span><span class="p">:</span>
+                            <span class="k">return</span> <span class="nb">list</span>
+            <span class="nb">list</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">value</span><span class="o">.</span><span class="n">lower</span><span class="p">())</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="nb">list</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You have to insert at least one symptom!&quot;</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="k">break</span>
+    <span class="k">return</span> <span class="nb">list</span></div>
+
+
+<div class="viewcode-block" id="getDiseaseName"><a class="viewcode-back" href="../rst/main.html#main.getDiseaseName">[docs]</a><span class="k">def</span> <span class="nf">getDiseaseName</span><span class="p">(</span><span class="n">conn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione utilizzata per acquisire dall&#39;utente il nome di una malattia che </span>
+<span class="sd">    vuole curare.</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conn: connection</span>
+<span class="sd">        Connessione al database. Server per interrogare il database in modo da </span>
+<span class="sd">        verificare che il nome di</span>
+<span class="sd">        una malattia inserita dall&#39;utente sia corretto</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    goodVal: str</span>
+<span class="sd">        Nome della malattia inserito dall&#39;utente e formattato tutto in </span>
+<span class="sd">        caratteri minuscoli</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">goodVal</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="n">goodVal</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">diseaseName</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="n">goodVal</span> <span class="o">=</span> <span class="n">SQL</span><span class="o">.</span><span class="n">checkDiseaseWithErr</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">diseaseName</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">goodVal</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You entered a wrong value. Please insert a valid one.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">goodVal</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span></div>
+
+<div class="viewcode-block" id="getLocation"><a class="viewcode-back" href="../rst/main.html#main.getLocation">[docs]</a><span class="k">def</span> <span class="nf">getLocation</span><span class="p">():</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che permette di acquisire dall&#39;utente il nome della sua locazione,</span>
+<span class="sd">    e verificare che esso sia corretto</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    goodLoc: geopy.location.Location</span>
+<span class="sd">        Posizione che l&#39;utente ha inserito</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">goodLoc</span> <span class="o">=</span> <span class="kc">False</span>
+    <span class="k">while</span> <span class="n">goodLoc</span> <span class="ow">is</span> <span class="kc">False</span><span class="p">:</span>
+        <span class="n">city</span> <span class="o">=</span> <span class="nb">input</span><span class="p">()</span>
+        <span class="n">goodLoc</span> <span class="o">=</span> <span class="n">GeoLocation</span><span class="o">.</span><span class="n">checkLocation</span><span class="p">(</span><span class="n">city</span><span class="p">)</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">goodLoc</span><span class="p">:</span>
+            <span class="n">goodLoc</span> <span class="o">=</span> <span class="kc">False</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;You entered an unknown location. Please retry.&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">goodLoc</span></div>
+
+
+<div class="viewcode-block" id="mergeList"><a class="viewcode-back" href="../rst/main.html#main.mergeList">[docs]</a><span class="k">def</span> <span class="nf">mergeList</span><span class="p">(</span><span class="n">listOfLists</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che riceve in input una lista di liste e le unisce in una lista</span>
+<span class="sd">    unica</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    listOfLists: list</span>
+<span class="sd">        Lista di liste</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    mergedList: list</span>
+<span class="sd">        Lista unica</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">mergedList</span> <span class="o">=</span> <span class="p">[]</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span> <span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="nb">len</span><span class="p">(</span><span class="n">listOfLists</span><span class="p">)):</span>
+        <span class="n">mergedList</span> <span class="o">+=</span> <span class="n">listOfLists</span><span class="p">[</span><span class="n">i</span><span class="p">]</span>   
+    <span class="k">return</span> <span class="n">mergedList</span></div>
+
+
+<div class="viewcode-block" id="countOcc"><a class="viewcode-back" href="../rst/main.html#main.countOcc">[docs]</a><span class="k">def</span> <span class="nf">countOcc</span><span class="p">(</span><span class="n">mergedList</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che restituisce un dizionario in cui le chiavi sono i nomi delle </span>
+<span class="sd">    diagnosi e i corrispondenti valori sono il numero di occorrenze di una </span>
+<span class="sd">    diagnosi nella lista</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    mergedList: list</span>
+<span class="sd">        Lista di</span>
+<span class="sd">        </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    occDict: dict</span>
+<span class="sd">        Dizionario finale</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">occDict</span> <span class="o">=</span> <span class="p">{}</span>
+    
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">mergedList</span><span class="p">:</span>
+        <span class="k">if</span> <span class="n">i</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">occDict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+            <span class="n">occDict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">mergedList</span><span class="o">.</span><span class="n">count</span><span class="p">(</span><span class="n">i</span><span class="p">)</span>
+   
+    <span class="k">return</span> <span class="n">occDict</span></div>
+
+<div class="viewcode-block" id="percOfDiagn"><a class="viewcode-back" href="../rst/main.html#main.percOfDiagn">[docs]</a><span class="k">def</span> <span class="nf">percOfDiagn</span><span class="p">(</span><span class="n">listSize</span><span class="p">,</span><span class="n">occDict</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che restituisce un dizionario in cui le chiavi sono le varie </span>
+<span class="sd">    diagnosi e i corrispondenti valori indicano il rapporto tra le occorrenze </span>
+<span class="sd">    di una diagnosi e il numero totale di diagnosi</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    listSize: int</span>
+<span class="sd">        Dimensione della lista delle diagnosi predette</span>
+<span class="sd">    occDict: dict</span>
+<span class="sd">        Dizionario in cui le chiavi sono gli id delle diagnosi e i valori sono </span>
+<span class="sd">        il numero di occorrenze di ogni diagnosi all&#39;interno della lita di </span>
+<span class="sd">        diagnosi predette</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    occDict: dict</span>
+<span class="sd">        Lo stesso dizionario ricevuto in input, in cui cambiano solo i valori,</span>
+<span class="sd">        che ora esprimono un rapporto</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="c1">#funzione che restituisce un dizionario con le percentuali delle diagnosi</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">occDict</span><span class="o">.</span><span class="n">keys</span><span class="p">():</span>
+        <span class="n">occDict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="n">occDict</span><span class="p">[</span><span class="n">i</span><span class="p">]</span><span class="o">/</span><span class="n">listSize</span>    
+    <span class="k">return</span> <span class="n">occDict</span></div>
+    
+<div class="viewcode-block" id="sortDict"><a class="viewcode-back" href="../rst/main.html#main.sortDict">[docs]</a><span class="k">def</span> <span class="nf">sortDict</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">rev</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che ordina le tupkle di un dizionario in base ai valori</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dictionary: dict</span>
+<span class="sd">        Dizionario da ordinare</span>
+<span class="sd">    rev: boolean</span>
+<span class="sd">        Vale True se si vuole orinare in maniera decrescente, False altrimenti</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    list</span>
+<span class="sd">        Lista di tuple ordinate</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">items</span><span class="p">(),</span> <span class="n">key</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">kv</span><span class="p">:(</span><span class="n">kv</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">kv</span><span class="p">[</span><span class="mi">0</span><span class="p">]),</span> <span class="n">reverse</span> <span class="o">=</span> <span class="n">rev</span><span class="p">)</span></div>
+
+
+<div class="viewcode-block" id="toDict"><a class="viewcode-back" href="../rst/main.html#main.toDict">[docs]</a><span class="k">def</span> <span class="nf">toDict</span><span class="p">(</span><span class="nb">list</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che converte una lista di tuple in un dizionario</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    list: list</span>
+<span class="sd">        lista da convertire</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    d: dict</span>
+<span class="sd">        Dizionario finale</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">list</span><span class="p">:</span>
+        <span class="n">d</span><span class="p">[</span><span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">]]</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">d</span></div>
+
+    
+<div class="viewcode-block" id="findNameDiagn"><a class="viewcode-back" href="../rst/main.html#main.findNameDiagn">[docs]</a><span class="k">def</span> <span class="nf">findNameDiagn</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">listDiagn</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che ad ogni id di una diagnosi associa il corrispondente nome</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    conn: connection</span>
+<span class="sd">        Connessione al database</span>
+<span class="sd">    listDiagn: list</span>
+<span class="sd">        Lista di id delle diagnosi</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    finalDict: dict</span>
+<span class="sd">        Dizionario in cui le chiavi sono i nomi delle diagnosi e i valori sono </span>
+<span class="sd">        le rispettive percentuali</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">finalDict</span> <span class="o">=</span> <span class="p">{}</span>
+    <span class="n">cursor</span> <span class="o">=</span> <span class="n">conn</span><span class="o">.</span><span class="n">cursor</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">listDiagn</span><span class="p">:</span>
+        <span class="n">finalDict</span><span class="p">[</span><span class="n">SQL</span><span class="o">.</span><span class="n">findDiagnName</span><span class="p">(</span><span class="n">cursor</span><span class="p">,</span> <span class="n">i</span><span class="p">[</span><span class="mi">0</span><span class="p">])]</span> <span class="o">=</span> <span class="n">i</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+    <span class="k">return</span> <span class="n">finalDict</span></div>
+
+
+<div class="viewcode-block" id="tabulateDictionary"><a class="viewcode-back" href="../rst/main.html#main.tabulateDictionary">[docs]</a><span class="k">def</span> <span class="nf">tabulateDictionary</span><span class="p">(</span><span class="n">dictionary</span><span class="p">,</span> <span class="n">nameCol1</span><span class="p">,</span> <span class="n">nameCol2</span><span class="p">,</span> <span class="n">unitOfMeasure</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Funzione che mette in una tabella i valori di un dizionario</span>
+<span class="sd">    </span>
+<span class="sd">    Parameters</span>
+<span class="sd">    ----------</span>
+<span class="sd">    dictionary: dict</span>
+<span class="sd">        Dizionario da tabulare</span>
+<span class="sd">    nameCol1: str</span>
+<span class="sd">        Nome della prima colonna</span>
+<span class="sd">    nameCol2: str</span>
+<span class="sd">        Nome della seconda colonna</span>
+<span class="sd">    unitOfMeasure: str</span>
+<span class="sd">        Stringa o carattere da affiancare ai dati riportati nella seconda </span>
+<span class="sd">        colonna. Può valere &#39;km&#39; o &#39;%&#39;</span>
+<span class="sd">    </span>
+<span class="sd">    Returns</span>
+<span class="sd">    -------</span>
+<span class="sd">    df: DataFrame</span>
+<span class="sd">        Tabella finale</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="kn">import</span> <span class="nn">pandas</span> <span class="k">as</span> <span class="nn">pd</span>
+    <span class="n">col1</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">dictionary</span><span class="o">.</span><span class="n">keys</span><span class="p">())</span>
+    <span class="n">col2</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">v</span><span class="p">)</span><span class="o">+</span> <span class="n">unitOfMeasure</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">dictionary</span><span class="o">.</span><span class="n">values</span><span class="p">())</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="p">{</span><span class="n">nameCol1</span><span class="p">:</span> <span class="n">col1</span><span class="p">,</span> <span class="n">nameCol2</span><span class="p">:</span> <span class="n">col2</span> <span class="p">}</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">pd</span><span class="o">.</span><span class="n">DataFrame</span><span class="p">(</span><span class="n">data</span> <span class="o">=</span> <span class="n">d</span><span class="p">)</span>
+    <span class="n">pd</span><span class="o">.</span><span class="n">set_option</span><span class="p">(</span><span class="s1">&#39;display.max_rows&#39;</span><span class="p">,</span> <span class="kc">None</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">df</span></div>
+
+
+<div class="viewcode-block" id="main"><a class="viewcode-back" href="../rst/main.html#main.main">[docs]</a><span class="k">def</span> <span class="nf">main</span><span class="p">():</span>
+    
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">SQL</span><span class="o">.</span><span class="n">SQLConnect</span><span class="p">()</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Insert your symptoms. Enter &#39;/&#39; to stop insertion.&quot;</span><span class="p">)</span>
+    <span class="nb">list</span> <span class="o">=</span> <span class="n">read_symptoms</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+    
+    <span class="n">diagn</span> <span class="o">=</span> <span class="n">SQL</span><span class="o">.</span><span class="n">searchDiagn</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">mergedList</span> <span class="o">=</span> <span class="n">mergeList</span><span class="p">(</span><span class="n">diagn</span><span class="p">)</span>
+    <span class="c1">#print((&quot;Merged list:&quot;, mergedList))</span>
+    <span class="n">categories</span> <span class="o">=</span> <span class="n">SQL</span><span class="o">.</span><span class="n">searchSymCategories</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span><span class="nb">list</span><span class="p">)</span>
+    <span class="n">percList</span> <span class="o">=</span> <span class="n">BayesianNet</span><span class="o">.</span><span class="n">probSymCat</span><span class="p">(</span><span class="n">categories</span><span class="p">)</span>
+    <span class="n">condProbList</span> <span class="o">=</span> <span class="n">BayesianNet</span><span class="o">.</span><span class="n">probDiagnose</span><span class="p">(</span><span class="n">percList</span><span class="p">)</span>
+    <span class="n">weightProb</span> <span class="o">=</span> <span class="n">BayesianNet</span><span class="o">.</span><span class="n">weightedProbCat</span><span class="p">(</span><span class="n">percList</span><span class="p">,</span><span class="n">condProbList</span><span class="p">)</span>
+    <span class="n">defListCat</span> <span class="o">=</span> <span class="n">BayesianNet</span><span class="o">.</span><span class="n">defProbCat</span><span class="p">(</span><span class="n">weightProb</span><span class="p">)</span>
+    
+    <span class="n">occDict</span> <span class="o">=</span> <span class="n">countOcc</span><span class="p">(</span><span class="n">mergedList</span><span class="p">)</span>
+    <span class="n">dictDiagn</span> <span class="o">=</span> <span class="n">percOfDiagn</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="n">mergedList</span><span class="p">),</span><span class="n">occDict</span><span class="p">)</span>
+    <span class="n">dictDiagn</span> <span class="o">=</span> <span class="n">BayesianNet</span><span class="o">.</span><span class="n">finalProbDiagn</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">defListCat</span><span class="p">,</span> <span class="n">dictDiagn</span><span class="p">)</span>
+    <span class="n">listDiagn</span> <span class="o">=</span> <span class="n">sortDict</span><span class="p">(</span><span class="n">dictDiagn</span><span class="p">,</span> <span class="kc">True</span><span class="p">)</span>        <span class="c1">#La funzione di sorting restituisce una lista di tuple</span>
+    <span class="n">finalDict</span> <span class="o">=</span> <span class="n">findNameDiagn</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">listDiagn</span><span class="p">)</span>
+    <span class="n">df</span> <span class="o">=</span> <span class="n">tabulateDictionary</span><span class="p">(</span><span class="n">finalDict</span><span class="p">,</span> <span class="s1">&#39;DIAGNOSIS&#39;</span><span class="p">,</span> <span class="s1">&#39;PROBABILITY&#39;</span><span class="p">,</span> <span class="s1">&#39;%&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">df</span><span class="p">)</span>
+    
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Which disease would you like to test or cure?&quot;</span><span class="p">)</span>
+    <span class="n">diseaseID</span> <span class="o">=</span> <span class="n">getDiseaseName</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Insert your city name. Add your address for a better localization.&quot;</span><span class="p">)</span>
+    <span class="n">city</span> <span class="o">=</span> <span class="n">getLocation</span><span class="p">()</span>
+    <span class="n">places</span> <span class="o">=</span> <span class="n">GeoLocation</span><span class="o">.</span><span class="n">findBestPlaces</span><span class="p">(</span><span class="n">conn</span><span class="p">,</span> <span class="n">diseaseID</span><span class="p">,</span> <span class="n">city</span><span class="p">)</span>
+    <span class="n">places</span> <span class="o">=</span> <span class="n">sortDict</span><span class="p">(</span><span class="n">places</span><span class="p">,</span> <span class="kc">False</span><span class="p">)</span>
+    <span class="n">places</span> <span class="o">=</span> <span class="n">toDict</span><span class="p">(</span><span class="n">places</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n\n</span><span class="s2"> Here are the closest hospitals that can help you:&quot;</span><span class="p">)</span>
+    <span class="n">tab</span> <span class="o">=</span> <span class="n">tabulateDictionary</span><span class="p">(</span><span class="n">places</span><span class="p">,</span> <span class="s1">&#39;HOSPITALS&#39;</span><span class="p">,</span> <span class="s1">&#39;DISTANCE&#39;</span><span class="p">,</span> <span class="s1">&#39;km&#39;</span><span class="p">)</span>
+    <span class="nb">print</span><span class="p">(</span><span class="n">tab</span><span class="p">)</span>
+    
+    
+    <span class="n">SQL</span><span class="o">.</span><span class="n">closeConn</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span></div>
+    
+    
+    
+</pre></div>
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">medical 1.0 documentation</a> &#187;</li>
+          <li class="nav-item nav-item-1"><a href="index.html" >Module code</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Francesco Benedetti.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>

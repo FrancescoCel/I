@@ -1,0 +1,356 @@
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml">
+  <head>
+    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <title>SQL module &#8212; medical 1.0 documentation</title>
+    <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
+    <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
+    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" src="../_static/jquery.js"></script>
+    <script type="text/javascript" src="../_static/underscore.js"></script>
+    <script type="text/javascript" src="../_static/doctools.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" /> 
+  </head><body>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             accesskey="I">index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">medical 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>  
+
+    <div class="document">
+      <div class="documentwrapper">
+        <div class="bodywrapper">
+          <div class="body" role="main">
+            
+  <div class="section" id="module-SQL">
+<span id="sql-module"></span><h1>SQL module<a class="headerlink" href="#module-SQL" title="Permalink to this headline">¶</a></h1>
+<dl class="function">
+<dt id="SQL.SQLConnect">
+<code class="descclassname">SQL.</code><code class="descname">SQLConnect</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#SQLConnect"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.SQLConnect" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che crea la connessione a MySQL</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>conn</strong> – Connessione a MySQL</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">connection</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.checkDb">
+<code class="descclassname">SQL.</code><code class="descname">checkDb</code><span class="sig-paren">(</span><em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#checkDb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.checkDb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che controlla se il database è stato già creato</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>conn</strong> (<em>connection</em>) – Connessione a MySQL</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">True se il database esiste, False altrimenti</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">boolean</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.checkDiseaseWithErr">
+<code class="descclassname">SQL.</code><code class="descname">checkDiseaseWithErr</code><span class="sig-paren">(</span><em>conn</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#checkDiseaseWithErr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.checkDiseaseWithErr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che verifica la presenza nel database di una malattia e restituisce</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+<li><strong>value</strong> (<em>Nome della malattia di cui veridicare la presenza</em>) – </li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>check</strong> – Variabile che contiene l’ID della malattia se essa è presente nel
+database. In caso contrario è vuota</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.checkSymWithErr">
+<code class="descclassname">SQL.</code><code class="descname">checkSymWithErr</code><span class="sig-paren">(</span><em>conn</em>, <em>value</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#checkSymWithErr"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.checkSymWithErr" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che verifica se il sintomo è presente nel database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+<li><strong>value</strong> (<em>str</em>) – Nome del sintomo dai cui verificare la presenza</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">True se il sintomo è presente, False altrimenti</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">boolean</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.closeConn">
+<code class="descclassname">SQL.</code><code class="descname">closeConn</code><span class="sig-paren">(</span><em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#closeConn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.closeConn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che chiude la connessione al database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>conn</strong> (<em>connection</em>) – Connessione al database</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.createDb">
+<code class="descclassname">SQL.</code><code class="descname">createDb</code><span class="sig-paren">(</span><em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#createDb"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.createDb" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che crea il database</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>conn</strong> (<em>connection</em>) – Connessione a MySQL</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.executeQueries">
+<code class="descclassname">SQL.</code><code class="descname">executeQueries</code><span class="sig-paren">(</span><em>filename</em>, <em>tablename</em>, <em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#executeQueries"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.executeQueries" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che crea una tabella ed inserisce i valori al suo interno partendo
+da un file excel</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>filename</strong> (<em>str</em>) – Nome del file contenente la tabella</li>
+<li><strong>tablename</strong> (<em>str</em>) – Nome da dare alla tabella</li>
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.findDiagnName">
+<code class="descclassname">SQL.</code><code class="descname">findDiagnName</code><span class="sig-paren">(</span><em>cursor</em>, <em>idDiagn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#findDiagnName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.findDiagnName" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che restituisce il nome di una diagnosi dato il suo id</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>cursor</strong> (<em>cursor</em>) – Cursore per la query</li>
+<li><strong>idDiagn</strong> (<em>str</em>) – id della diagnosi di cui si vuole scoprire il nome</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cursor</strong> – Nome della diagnosi</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.findHospitals">
+<code class="descclassname">SQL.</code><code class="descname">findHospitals</code><span class="sig-paren">(</span><em>conn</em>, <em>diagn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#findHospitals"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.findHospitals" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che trova gli ospedali che curano una malattia</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+<li><strong>diagn</strong> (<em>str</em>) – Nome della diagnosi</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cursor</strong> – Lista di triple (nome-latitudine-longitudine), ognuna rappresentante un
+ospedale che cura la malattia</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.queryUse">
+<code class="descclassname">SQL.</code><code class="descname">queryUse</code><span class="sig-paren">(</span><em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#queryUse"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.queryUse" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che crea la query che consente di utilizzare il database medical</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>conn</strong> (<em>connection</em>) – Connessione a MySQL</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.searchCatDiagn">
+<code class="descclassname">SQL.</code><code class="descname">searchCatDiagn</code><span class="sig-paren">(</span><em>conn</em>, <em>diagn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#searchCatDiagn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.searchCatDiagn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che restituisce la categoria a cui una diagnosi appartiene</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+<li><strong>diagn</strong> (<em>str</em>) – Nome della diagnosi</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>cursor</strong> – Nome della categoria a cui la diagnosi appartiene</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">str</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.searchDiagn">
+<code class="descclassname">SQL.</code><code class="descname">searchDiagn</code><span class="sig-paren">(</span><em>conn</em>, <em>list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#searchDiagn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.searchDiagn" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che, data una lista di sintomi, restituisce la lista di tutte le
+diagnosi ad essi corrispondenti</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+<li><strong>list</strong> (<em>list</em>) – Lista contenente i nomi dei sintomi</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>idDiseases</strong> – Lista di liste. Ogni lista contiene gli di delle diagnosi relative ad un sintomo</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="function">
+<dt id="SQL.searchSymCategories">
+<code class="descclassname">SQL.</code><code class="descname">searchSymCategories</code><span class="sig-paren">(</span><em>conn</em>, <em>list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/SQL.html#searchSymCategories"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#SQL.searchSymCategories" title="Permalink to this definition">¶</a></dt>
+<dd><p>Funzione che, ad ogni sintomo presente nella lista, associa la rispettiva
+categoria ci appartenenza</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
+<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
+<li><strong>list</strong> (<em>list</em>) – Lista di sintomi</li>
+</ul>
+</td>
+</tr>
+<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>categories</strong> – Lista di categorie</p>
+</td>
+</tr>
+<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
+</td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+</div>
+
+
+          </div>
+        </div>
+      </div>
+      <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
+        <div class="sphinxsidebarwrapper">
+  <div role="note" aria-label="source link">
+    <h3>This Page</h3>
+    <ul class="this-page-menu">
+      <li><a href="../_sources/rst/SQL.rst.txt"
+            rel="nofollow">Show Source</a></li>
+    </ul>
+   </div>
+<div id="searchbox" style="display: none" role="search">
+  <h3>Quick search</h3>
+    <div class="searchformwrapper">
+    <form class="search" action="../search.html" method="get">
+      <input type="text" name="q" />
+      <input type="submit" value="Go" />
+      <input type="hidden" name="check_keywords" value="yes" />
+      <input type="hidden" name="area" value="default" />
+    </form>
+    </div>
+</div>
+<script type="text/javascript">$('#searchbox').show(0);</script>
+        </div>
+      </div>
+      <div class="clearer"></div>
+    </div>
+    <div class="related" role="navigation" aria-label="related navigation">
+      <h3>Navigation</h3>
+      <ul>
+        <li class="right" style="margin-right: 10px">
+          <a href="../genindex.html" title="General Index"
+             >index</a></li>
+        <li class="right" >
+          <a href="../py-modindex.html" title="Python Module Index"
+             >modules</a> |</li>
+        <li class="nav-item nav-item-0"><a href="../index.html">medical 1.0 documentation</a> &#187;</li> 
+      </ul>
+    </div>
+    <div class="footer" role="contentinfo">
+        &#169; Copyright 2020, Francesco Benedetti.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+    </div>
+  </body>
+</html>
