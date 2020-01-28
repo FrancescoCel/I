@@ -281,19 +281,19 @@ def main():
     df = tabulateDictionary(finalDict, 'DIAGNOSIS', 'PROBABILITY', '%')
     print(df)
     
-    print("\nWhich disease would you like to test or cure?")
-    diseaseID = getDiseaseName(conn)
-    print("\nInsert your city name. Add your address for a better localization.")
-    city = getLocation()
-    places = GeoLocation.findBestPlaces(conn, diseaseID, city)
-    places = sortDict(places, False)
-    places = toDict(places)
-    print("\n\n Here are the closest hospitals that can help you:")
-    tab = tabulateDictionary(places, 'HOSPITALS', 'DISTANCE', 'km')
-    print(tab)
-    
+    stop = "y"
+    while stop.lower()=="y":
+        print("\n\nWhich disease would you like to test or cure?")
+        diseaseID = getDiseaseName(conn)
+        print("\nInsert your city name. Add your address for a better localization.")
+        city = getLocation()
+        places = GeoLocation.findBestPlaces(conn, diseaseID, city)
+        places = sortDict(places, False)
+        places = toDict(places)
+        print("\n Here are the closest hospitals that can help you:")
+        tab = tabulateDictionary(places, 'HOSPITALS', 'DISTANCE', 'km')
+        print(tab)
+        print("\n\nWould you like to find places for an other diagnosis? Insert 'y' or 'Y' to continue, anything else to abort.")
+        stop = input()
     
     SQL.closeConn(conn)
-    
-    
-    
