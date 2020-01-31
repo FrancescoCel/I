@@ -24,7 +24,7 @@ def checkLocation(loc):
         un oggetto della classe geolocation.location.Location. In caso 
         contrario la variabile è vuota
     """
-    geolocator = Nominatim(user_agent="specify_your_app_name_here")
+    geolocator = Nominatim(user_agent="specify_your_app_name_here",timeout=15)
     return geolocator.geocode(loc)
 
 def findBestPlaces(conn, diagnName, location):
