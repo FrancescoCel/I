@@ -282,11 +282,12 @@ def main():
     print(df)
     
     stop = "y"
+    print("\n\nWhich disease would you like to test or cure?")
+    diseaseID = getDiseaseName(conn)
+    print("\nInsert your city name. Add your address for a better localization.")
+    city = getLocation()
     while stop.lower()=="y":
-        print("\n\nWhich disease would you like to test or cure?")
-        diseaseID = getDiseaseName(conn)
-        print("\nInsert your city name. Add your address for a better localization.")
-        city = getLocation()
+        
         places = GeoLocation.findBestPlaces(conn, diseaseID, city)
         places = sortDict(places, False)
         places = toDict(places)
@@ -295,5 +296,8 @@ def main():
         print(tab)
         print("\n\nWould you like to find places for an other diagnosis? Insert 'y' or 'Y' to continue, anything else to abort.")
         stop = input()
-    
+        if stop == 'y' or stop == 'Y':
+            print("\n\nWhich disease would you like to test or cure?")
+            diseaseID = getDiseaseName(conn)
+        
     SQL.closeConn(conn)
