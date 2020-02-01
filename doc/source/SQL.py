@@ -2,16 +2,16 @@ import mysql.connector
 
 def SQLConnect():
     """
-    Funzione che crea la connessione a MySQL
+    Funzione che crea la connessione a MySQL. Alla riga 14 vengono inserite le
+    credenziali personali di MySQL. Bisogna dunque sostituire  valori di
+    localhost, root e password con i propri
     
     Returns
     -------
     conn: connection
         Connessione a MySQL
     """
-    conn = mysql.connector.connect(host = "localhost", user = "root",password = "checco")
-    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
-    #conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'sole1997')
+    conn = mysql.connector.connect(host = 'localhost', user = 'root', password = 'password')
     
     if checkDb(conn) is True:
         createDb(conn)
@@ -97,7 +97,9 @@ def queryUse(conn):
 def executeQueries(filename,tablename,conn):
     """
     Funzione che crea una tabella ed inserisce i valori al suo interno partendo
-    da un file excel
+    da un file excel. Alle righe 123, 140, 155, 171, 186 bisogna modificare i
+    percorsi, inserendo il percorso locale a cui è stata salvata la cartella
+    con i file excel
     
     Parameters
     ----------
@@ -118,9 +120,7 @@ def executeQueries(filename,tablename,conn):
     if filename == 'diagn_title':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['id']
     
@@ -137,9 +137,7 @@ def executeQueries(filename,tablename,conn):
     elif filename == 'diffsydiw':
         
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['syd']
         
@@ -154,9 +152,7 @@ def executeQueries(filename,tablename,conn):
         
     elif filename == 'symptoms2':    
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['_id']
         
@@ -172,9 +168,7 @@ def executeQueries(filename,tablename,conn):
         
     elif filename == 'centri':
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cent']
         
@@ -189,9 +183,7 @@ def executeQueries(filename,tablename,conn):
                      id,name,lat,longi) VALUES(%s,%s,%s,%s);"""
     elif filename == 'centri_cure':
         #Caricamento del worksheet
-        sheet = xl.load_workbook("C:/Users/utente/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
-        #sheet = xl.load_workbook("C:/Users/nico9/ICon/Dataset_xlsx/" + filename +".xlsx")
+        sheet = xl.load_workbook("C:/Users/franc/ICon/Dataset_xlsx/" + filename +".xlsx")
         
         table = sheet['cure']
         
