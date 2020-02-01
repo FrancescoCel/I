@@ -2,6 +2,6 @@ BayesianNet module
 ==================
 
 .. automodule:: BayesianNet
-    :members:
-    :undoc-members:
-    :show-inheritance:
+   :members:
+   :undoc-members:
+   :show-inheritance:

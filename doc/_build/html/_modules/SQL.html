@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>SQL &#8212; medical 1.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
   </head><body>
@@ -41,16 +39,16 @@
 
 <div class="viewcode-block" id="SQLConnect"><a class="viewcode-back" href="../rst/SQL.html#SQL.SQLConnect">[docs]</a><span class="k">def</span> <span class="nf">SQLConnect</span><span class="p">():</span>
     <span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">    Funzione che crea la connessione a MySQL</span>
+<span class="sd">    Funzione che crea la connessione a MySQL. Alla riga 14 vengono inserite le</span>
+<span class="sd">    credenziali personali di MySQL. Bisogna dunque sostituire  valori di</span>
+<span class="sd">    localhost, root e password con i propri</span>
 <span class="sd">    </span>
 <span class="sd">    Returns</span>
 <span class="sd">    -------</span>
 <span class="sd">    conn: connection</span>
 <span class="sd">        Connessione a MySQL</span>
 <span class="sd">    &quot;&quot;&quot;</span>
-    <span class="n">conn</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span> <span class="o">=</span> <span class="s2">&quot;localhost&quot;</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="s2">&quot;root&quot;</span><span class="p">,</span><span class="n">password</span> <span class="o">=</span> <span class="s2">&quot;checco&quot;</span><span class="p">)</span>
-    <span class="c1">#conn = mysql.connector.connect(host = &#39;localhost&#39;, user = &#39;root&#39;, password = &#39;password&#39;)</span>
-    <span class="c1">#conn = mysql.connector.connect(host = &#39;localhost&#39;, user = &#39;root&#39;, password = &#39;sole1997&#39;)</span>
+    <span class="n">conn</span> <span class="o">=</span> <span class="n">mysql</span><span class="o">.</span><span class="n">connector</span><span class="o">.</span><span class="n">connect</span><span class="p">(</span><span class="n">host</span> <span class="o">=</span> <span class="s1">&#39;localhost&#39;</span><span class="p">,</span> <span class="n">user</span> <span class="o">=</span> <span class="s1">&#39;root&#39;</span><span class="p">,</span> <span class="n">password</span> <span class="o">=</span> <span class="s1">&#39;password&#39;</span><span class="p">)</span>
     
     <span class="k">if</span> <span class="n">checkDb</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
         <span class="n">createDb</span><span class="p">(</span><span class="n">conn</span><span class="p">)</span>
@@ -136,7 +134,9 @@
 <div class="viewcode-block" id="executeQueries"><a class="viewcode-back" href="../rst/SQL.html#SQL.executeQueries">[docs]</a><span class="k">def</span> <span class="nf">executeQueries</span><span class="p">(</span><span class="n">filename</span><span class="p">,</span><span class="n">tablename</span><span class="p">,</span><span class="n">conn</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Funzione che crea una tabella ed inserisce i valori al suo interno partendo</span>
-<span class="sd">    da un file excel</span>
+<span class="sd">    da un file excel. Alle righe 123, 140, 155, 171, 186 bisogna modificare i</span>
+<span class="sd">    percorsi, inserendo il percorso locale a cui è stata salvata la cartella</span>
+<span class="sd">    con i file excel</span>
 <span class="sd">    </span>
 <span class="sd">    Parameters</span>
 <span class="sd">    ----------</span>
@@ -157,9 +157,7 @@
     <span class="k">if</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;diagn_title&#39;</span><span class="p">:</span>
         
         <span class="c1">#Caricamento del worksheet</span>
-        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/utente/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/nico9/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
+        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
         
         <span class="n">table</span> <span class="o">=</span> <span class="n">sheet</span><span class="p">[</span><span class="s1">&#39;id&#39;</span><span class="p">]</span>
     
@@ -176,9 +174,7 @@
     <span class="k">elif</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;diffsydiw&#39;</span><span class="p">:</span>
         
         <span class="c1">#Caricamento del worksheet</span>
-        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/utente/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/nico9/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
+        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
         
         <span class="n">table</span> <span class="o">=</span> <span class="n">sheet</span><span class="p">[</span><span class="s1">&#39;syd&#39;</span><span class="p">]</span>
         
@@ -193,9 +189,7 @@
         
     <span class="k">elif</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;symptoms2&#39;</span><span class="p">:</span>    
         <span class="c1">#Caricamento del worksheet</span>
-        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/utente/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/nico9/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
+        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
         
         <span class="n">table</span> <span class="o">=</span> <span class="n">sheet</span><span class="p">[</span><span class="s1">&#39;_id&#39;</span><span class="p">]</span>
         
@@ -211,9 +205,7 @@
         
     <span class="k">elif</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;centri&#39;</span><span class="p">:</span>
         <span class="c1">#Caricamento del worksheet</span>
-        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/utente/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/nico9/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
+        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
         
         <span class="n">table</span> <span class="o">=</span> <span class="n">sheet</span><span class="p">[</span><span class="s1">&#39;cent&#39;</span><span class="p">]</span>
         
@@ -228,9 +220,7 @@
 <span class="s2">                     id,name,lat,longi) VALUES(</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">,</span><span class="si">%s</span><span class="s2">);&quot;&quot;&quot;</span>
     <span class="k">elif</span> <span class="n">filename</span> <span class="o">==</span> <span class="s1">&#39;centri_cure&#39;</span><span class="p">:</span>
         <span class="c1">#Caricamento del worksheet</span>
-        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/utente/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
-        <span class="c1">#sheet = xl.load_workbook(&quot;C:/Users/nico9/ICon/Dataset_xlsx/&quot; + filename +&quot;.xlsx&quot;)</span>
+        <span class="n">sheet</span> <span class="o">=</span> <span class="n">xl</span><span class="o">.</span><span class="n">load_workbook</span><span class="p">(</span><span class="s2">&quot;C:/Users/franc/ICon/Dataset_xlsx/&quot;</span> <span class="o">+</span> <span class="n">filename</span> <span class="o">+</span><span class="s2">&quot;.xlsx&quot;</span><span class="p">)</span>
         
         <span class="n">table</span> <span class="o">=</span> <span class="n">sheet</span><span class="p">[</span><span class="s1">&#39;cure&#39;</span><span class="p">]</span>
         
@@ -498,13 +488,11 @@
       <div class="sphinxsidebar" role="navigation" aria-label="main navigation">
         <div class="sphinxsidebarwrapper">
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -528,7 +516,7 @@
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Francesco Benedetti.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
     </div>
   </body>
 </html>

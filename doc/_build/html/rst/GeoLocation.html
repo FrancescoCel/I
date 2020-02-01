@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>GeoLocation module &#8212; medical 1.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
   </head><body>
@@ -41,50 +39,45 @@
 <p>&#64;author: Francesco</p>
 <dl class="function">
 <dt id="GeoLocation.checkLocation">
-<code class="descclassname">GeoLocation.</code><code class="descname">checkLocation</code><span class="sig-paren">(</span><em>loc</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GeoLocation.html#checkLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GeoLocation.checkLocation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">GeoLocation.</code><code class="sig-name descname">checkLocation</code><span class="sig-paren">(</span><em class="sig-param">loc</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GeoLocation.html#checkLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GeoLocation.checkLocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che restituisce una variabile contenente un luogo</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>loc</strong> (<em>str</em>) – Nome della locazione</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body">Se lil luogo inserito dall’utente esiste, questa variabile contiene
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>loc</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Nome della locazione</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Se lil luogo inserito dall’utente esiste, questa variabile contiene
 un oggetto della classe geolocation.location.Location. In caso
-contrario la variabile è vuota</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">geopy.location.Location</td>
-</tr>
-</tbody>
-</table>
+contrario la variabile è vuota</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>geopy.location.Location</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="GeoLocation.findBestPlaces">
-<code class="descclassname">GeoLocation.</code><code class="descname">findBestPlaces</code><span class="sig-paren">(</span><em>conn</em>, <em>diagnName</em>, <em>location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GeoLocation.html#findBestPlaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GeoLocation.findBestPlaces" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">GeoLocation.</code><code class="sig-name descname">findBestPlaces</code><span class="sig-paren">(</span><em class="sig-param">conn</em>, <em class="sig-param">diagnName</em>, <em class="sig-param">location</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/GeoLocation.html#findBestPlaces"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#GeoLocation.findBestPlaces" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che trova gli ospedali che curano una determinata malattia e ne
 calcola la distanza da un punto inserito dall’utente</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
-<li><strong>diagnName</strong> (<em>str</em>) – Nome della diagnosi che l’utente vuole curare</li>
-<li><strong>location</strong> (<em>geopy.location.Location</em>) – Luogo di cui deve essere calcolata la distanza dagli ospedali</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conn</strong> (<em>connection</em>) – Connessione al database</p></li>
+<li><p><strong>diagnName</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Nome della diagnosi che l’utente vuole curare</p></li>
+<li><p><strong>location</strong> (<em>geopy.location.Location</em>) – Luogo di cui deve essere calcolata la distanza dagli ospedali</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>hospitalsDict</strong> – Dizionario le cui chiavi sono i nomi degli ospedali che curano la
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>hospitalsDict</strong> – Dizionario le cui chiavi sono i nomi degli ospedali che curano la
 malattia, e i cui valori indicano la distanza in km degli ospedali
 dal punto indicato dal parametro city</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -103,13 +96,11 @@ dal punto indicato dal parametro city</p>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -132,7 +123,7 @@ dal punto indicato dal parametro city</p>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Francesco Benedetti.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
     </div>
   </body>
 </html>

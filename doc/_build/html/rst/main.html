@@ -1,19 +1,17 @@
 
-<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
-  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<!DOCTYPE html>
 
 <html xmlns="http://www.w3.org/1999/xhtml">
   <head>
-    <meta http-equiv="X-UA-Compatible" content="IE=Edge" />
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
     <title>main module &#8212; medical 1.0 documentation</title>
     <link rel="stylesheet" href="../_static/nature.css" type="text/css" />
     <link rel="stylesheet" href="../_static/pygments.css" type="text/css" />
-    <script type="text/javascript" src="../_static/documentation_options.js"></script>
+    <script type="text/javascript" id="documentation_options" data-url_root="../" src="../_static/documentation_options.js"></script>
     <script type="text/javascript" src="../_static/jquery.js"></script>
     <script type="text/javascript" src="../_static/underscore.js"></script>
     <script type="text/javascript" src="../_static/doctools.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS-MML_HTMLorMML"></script>
+    <script type="text/javascript" src="../_static/language_data.js"></script>
     <link rel="index" title="Index" href="../genindex.html" />
     <link rel="search" title="Search" href="../search.html" /> 
   </head><body>
@@ -41,227 +39,204 @@
 <p>&#64;author: franc</p>
 <dl class="function">
 <dt id="main.countOcc">
-<code class="descclassname">main.</code><code class="descname">countOcc</code><span class="sig-paren">(</span><em>mergedList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#countOcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.countOcc" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">countOcc</code><span class="sig-paren">(</span><em class="sig-param">mergedList</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#countOcc"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.countOcc" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che restituisce un dizionario in cui le chiavi sono i nomi delle
 diagnosi e i corrispondenti valori sono il numero di occorrenze di una
 diagnosi nella lista</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>mergedList</strong> (<em>list</em>) – Lista di</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>occDict</strong> – Dizionario finale</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>mergedList</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – Lista di</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>occDict</strong> – Dizionario finale</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.findNameDiagn">
-<code class="descclassname">main.</code><code class="descname">findNameDiagn</code><span class="sig-paren">(</span><em>conn</em>, <em>listDiagn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#findNameDiagn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.findNameDiagn" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">findNameDiagn</code><span class="sig-paren">(</span><em class="sig-param">conn</em>, <em class="sig-param">listDiagn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#findNameDiagn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.findNameDiagn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che ad ogni id di una diagnosi associa il corrispondente nome</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>conn</strong> (<em>connection</em>) – Connessione al database</li>
-<li><strong>listDiagn</strong> (<em>list</em>) – Lista di id delle diagnosi</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>conn</strong> (<em>connection</em>) – Connessione al database</p></li>
+<li><p><strong>listDiagn</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – Lista di id delle diagnosi</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>finalDict</strong> – Dizionario in cui le chiavi sono i nomi delle diagnosi e i valori sono
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>finalDict</strong> – Dizionario in cui le chiavi sono i nomi delle diagnosi e i valori sono
 le rispettive percentuali</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.getDiseaseName">
-<code class="descclassname">main.</code><code class="descname">getDiseaseName</code><span class="sig-paren">(</span><em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#getDiseaseName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.getDiseaseName" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">getDiseaseName</code><span class="sig-paren">(</span><em class="sig-param">conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#getDiseaseName"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.getDiseaseName" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione utilizzata per acquisire dall’utente il nome di una malattia che
 vuole curare.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>conn</strong> (<em>connection</em>) – Connessione al database. Server per interrogare il database in modo da
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>conn</strong> (<em>connection</em>) – Connessione al database. Server per interrogare il database in modo da
 verificare che il nome di
-una malattia inserita dall’utente sia corretto</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>goodVal</strong> – Nome della malattia inserito dall’utente e formattato tutto in
-caratteri minuscoli</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">str</td>
-</tr>
-</tbody>
-</table>
+una malattia inserita dall’utente sia corretto</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>goodVal</strong> – Nome della malattia inserito dall’utente e formattato tutto in
+caratteri minuscoli</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)">str</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.getLocation">
-<code class="descclassname">main.</code><code class="descname">getLocation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#getLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.getLocation" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">getLocation</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#getLocation"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.getLocation" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che permette di acquisire dall’utente il nome della sua locazione,
 e verificare che esso sia corretto</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>goodLoc</strong> – Posizione che l’utente ha inserito</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">geopy.location.Location</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>goodLoc</strong> – Posizione che l’utente ha inserito</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p>geopy.location.Location</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.main">
-<code class="descclassname">main.</code><code class="descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.main" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">main</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#main"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.main" title="Permalink to this definition">¶</a></dt>
 <dd></dd></dl>
 
 <dl class="function">
 <dt id="main.mergeList">
-<code class="descclassname">main.</code><code class="descname">mergeList</code><span class="sig-paren">(</span><em>listOfLists</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#mergeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.mergeList" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">mergeList</code><span class="sig-paren">(</span><em class="sig-param">listOfLists</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#mergeList"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.mergeList" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che riceve in input una lista di liste e le unisce in una lista
 unica</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>listOfLists</strong> (<em>list</em>) – Lista di liste</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>mergedList</strong> – Lista unica</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>listOfLists</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – Lista di liste</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>mergedList</strong> – Lista unica</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.percOfDiagn">
-<code class="descclassname">main.</code><code class="descname">percOfDiagn</code><span class="sig-paren">(</span><em>listSize</em>, <em>occDict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#percOfDiagn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.percOfDiagn" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">percOfDiagn</code><span class="sig-paren">(</span><em class="sig-param">listSize</em>, <em class="sig-param">occDict</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#percOfDiagn"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.percOfDiagn" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che restituisce un dizionario in cui le chiavi sono le varie
 diagnosi e i corrispondenti valori indicano il rapporto tra le occorrenze
 di una diagnosi e il numero totale di diagnosi</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>listSize</strong> (<em>int</em>) – Dimensione della lista delle diagnosi predette</li>
-<li><strong>occDict</strong> (<em>dict</em>) – Dizionario in cui le chiavi sono gli id delle diagnosi e i valori sono
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>listSize</strong> (<a class="reference external" href="https://docs.python.org/3/library/functions.html#int" title="(in Python v3.8)"><em>int</em></a>) – Dimensione della lista delle diagnosi predette</p></li>
+<li><p><strong>occDict</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Dizionario in cui le chiavi sono gli id delle diagnosi e i valori sono
 il numero di occorrenze di ogni diagnosi all’interno della lita di
-diagnosi predette</li>
+diagnosi predette</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>occDict</strong> – Lo stesso dizionario ricevuto in input, in cui cambiano solo i valori,
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>occDict</strong> – Lo stesso dizionario ricevuto in input, in cui cambiano solo i valori,
 che ora esprimono un rapporto</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">dict</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.read_symptoms">
-<code class="descclassname">main.</code><code class="descname">read_symptoms</code><span class="sig-paren">(</span><em>conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#read_symptoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.read_symptoms" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">read_symptoms</code><span class="sig-paren">(</span><em class="sig-param">conn</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#read_symptoms"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.read_symptoms" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione utilizzata per prendere in input i sintomi che un utente ha
 :param conn: connessione al database. Serve per verificare che il nome di un</p>
 <blockquote>
-<div>sintomo inserito sia corretto</div></blockquote>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Returns:</th><td class="field-body"><strong>list</strong> – Lista di sintomi inseriti dall’utente</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Return type:</th><td class="field-body">list</td>
-</tr>
-</tbody>
-</table>
+<div><p>sintomo inserito sia corretto</p>
+</div></blockquote>
+<dl class="field-list simple">
+<dt class="field-odd">Returns</dt>
+<dd class="field-odd"><p><strong>list</strong> – Lista di sintomi inseriti dall’utente</p>
+</dd>
+<dt class="field-even">Return type</dt>
+<dd class="field-even"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.sortDict">
-<code class="descclassname">main.</code><code class="descname">sortDict</code><span class="sig-paren">(</span><em>dictionary</em>, <em>rev</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#sortDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.sortDict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">sortDict</code><span class="sig-paren">(</span><em class="sig-param">dictionary</em>, <em class="sig-param">rev</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#sortDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.sortDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che ordina le tupkle di un dizionario in base ai valori</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dictionary</strong> (<em>dict</em>) – Dizionario da ordinare</li>
-<li><strong>rev</strong> (<em>boolean</em>) – Vale True se si vuole orinare in maniera decrescente, False altrimenti</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dictionary</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Dizionario da ordinare</p></li>
+<li><p><strong>rev</strong> (<em>boolean</em>) – Vale True se si vuole orinare in maniera decrescente, False altrimenti</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first">Lista di tuple ordinate</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">list</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p>Lista di tuple ordinate</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)">list</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.tabulateDictionary">
-<code class="descclassname">main.</code><code class="descname">tabulateDictionary</code><span class="sig-paren">(</span><em>dictionary</em>, <em>nameCol1</em>, <em>nameCol2</em>, <em>unitOfMeasure</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#tabulateDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.tabulateDictionary" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">tabulateDictionary</code><span class="sig-paren">(</span><em class="sig-param">dictionary</em>, <em class="sig-param">nameCol1</em>, <em class="sig-param">nameCol2</em>, <em class="sig-param">unitOfMeasure</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#tabulateDictionary"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.tabulateDictionary" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che mette in una tabella i valori di un dizionario</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first simple">
-<li><strong>dictionary</strong> (<em>dict</em>) – Dizionario da tabulare</li>
-<li><strong>nameCol1</strong> (<em>str</em>) – Nome della prima colonna</li>
-<li><strong>nameCol2</strong> (<em>str</em>) – Nome della seconda colonna</li>
-<li><strong>unitOfMeasure</strong> (<em>str</em>) – Stringa o carattere da affiancare ai dati riportati nella seconda
-colonna. Può valere ‘km’ o ‘%’</li>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><ul class="simple">
+<li><p><strong>dictionary</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)"><em>dict</em></a>) – Dizionario da tabulare</p></li>
+<li><p><strong>nameCol1</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Nome della prima colonna</p></li>
+<li><p><strong>nameCol2</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Nome della seconda colonna</p></li>
+<li><p><strong>unitOfMeasure</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#str" title="(in Python v3.8)"><em>str</em></a>) – Stringa o carattere da affiancare ai dati riportati nella seconda
+colonna. Può valere ‘km’ o ‘%’</p></li>
 </ul>
-</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><p class="first"><strong>df</strong> – Tabella finale</p>
-</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body"><p class="first last">DataFrame</p>
-</td>
-</tr>
-</tbody>
-</table>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>df</strong> – Tabella finale</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p>DataFrame</p>
+</dd>
+</dl>
 </dd></dl>
 
 <dl class="function">
 <dt id="main.toDict">
-<code class="descclassname">main.</code><code class="descname">toDict</code><span class="sig-paren">(</span><em>list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#toDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.toDict" title="Permalink to this definition">¶</a></dt>
+<code class="sig-prename descclassname">main.</code><code class="sig-name descname">toDict</code><span class="sig-paren">(</span><em class="sig-param">list</em><span class="sig-paren">)</span><a class="reference internal" href="../_modules/main.html#toDict"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#main.toDict" title="Permalink to this definition">¶</a></dt>
 <dd><p>Funzione che converte una lista di tuple in un dizionario</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>list</strong> (<em>list</em>) – lista da convertire</td>
-</tr>
-<tr class="field-even field"><th class="field-name">Returns:</th><td class="field-body"><strong>d</strong> – Dizionario finale</td>
-</tr>
-<tr class="field-odd field"><th class="field-name">Return type:</th><td class="field-body">dict</td>
-</tr>
-</tbody>
-</table>
+<dl class="field-list simple">
+<dt class="field-odd">Parameters</dt>
+<dd class="field-odd"><p><strong>list</strong> (<a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#list" title="(in Python v3.8)"><em>list</em></a>) – lista da convertire</p>
+</dd>
+<dt class="field-even">Returns</dt>
+<dd class="field-even"><p><strong>d</strong> – Dizionario finale</p>
+</dd>
+<dt class="field-odd">Return type</dt>
+<dd class="field-odd"><p><a class="reference external" href="https://docs.python.org/3/library/stdtypes.html#dict" title="(in Python v3.8)">dict</a></p>
+</dd>
+</dl>
 </dd></dl>
 
 </div>
@@ -280,13 +255,11 @@ colonna. Può valere ‘km’ o ‘%’</li>
     </ul>
    </div>
 <div id="searchbox" style="display: none" role="search">
-  <h3>Quick search</h3>
+  <h3 id="searchlabel">Quick search</h3>
     <div class="searchformwrapper">
     <form class="search" action="../search.html" method="get">
-      <input type="text" name="q" />
+      <input type="text" name="q" aria-labelledby="searchlabel" />
       <input type="submit" value="Go" />
-      <input type="hidden" name="check_keywords" value="yes" />
-      <input type="hidden" name="area" value="default" />
     </form>
     </div>
 </div>
@@ -309,7 +282,7 @@ colonna. Può valere ‘km’ o ‘%’</li>
     </div>
     <div class="footer" role="contentinfo">
         &#169; Copyright 2020, Francesco Benedetti.
-      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 1.7.4.
+      Created using <a href="http://sphinx-doc.org/">Sphinx</a> 2.3.1.
     </div>
   </body>
 </html>

@@ -1,7 +1,7 @@
-SQL module
-==========
+BN module
+=========
 
-.. automodule:: SQL
+.. automodule:: BN
    :members:
    :undoc-members:
    :show-inheritance:
